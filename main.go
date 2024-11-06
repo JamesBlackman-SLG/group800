@@ -9,9 +9,10 @@ import (
 	"net/http"
 	"os"
 	"strings"
-  "sync"
+	"sync"
 
-	_ "github.com/tursodatabase/go-libsql"
+	_ "github.com/tursodatabase/libsql-client-go/libsql"
+	// _ "github.com/tursodatabase/go-libsql"
 )
 
 type Webhook struct {
@@ -118,6 +119,7 @@ type WebhookPayload struct {
 
 // const webhookSecret = "tmkey_gwCFPntotcNaH3454dEpayxn2uoPYvWU" // replace with the actual secret
 var dbMutex sync.Mutex
+
 func webhookHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
@@ -238,8 +240,8 @@ func nullString(s *string) interface{} {
 }
 
 func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
-  dbMutex.Lock()
-  defer dbMutex.Unlock()
+	dbMutex.Lock()
+	defer dbMutex.Unlock()
 	// log.Println("POST - Request received")
 
 	// Print all headers
@@ -285,10 +287,10 @@ func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 		webhook.Data.ClockingSequenceID, webhook.Data.PlanningID, webhook.Data.AbsenceTypeID, webhook.Data.AbsenceTypeName, webhook.Data.Color,
 		webhook.Data.Comment, webhook.Data.PayPeriodID, webhook.Data.PayPeriodName)
 	if err != nil {
-    log.Println("Failed to insert data")
-    fmt.Println(err)
-    http.Error(w, "Failed to insert data", http.StatusInternalServerError)
-    return
+		log.Println("Failed to insert data")
+		fmt.Println(err)
+		http.Error(w, "Failed to insert data", http.StatusInternalServerError)
+		return
 	}
 
 	fmt.Println("Record inserted successfully")
@@ -348,14 +350,21 @@ func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 func main() {
 	var db *sql.DB
 
-	dbName := "file:.webhook.db?_journal_mode=WAL"
+	// dbName := "file:.webhook.db?_journal_mode=WAL"
+	//
+	// db, err := sql.Open("libsql", dbName)
+	tursoUrl := os.Getenv("GROUP_800_TURSO_URL")
+	tursoToken := os.Getenv("GROUP_800_TURSO_TOKEN")
 
-	db, err := sql.Open("libsql", dbName)
+	url := fmt.Sprintf("%s?authToken=%s", tursoUrl, tursoToken)
+
+	db, err := sql.Open("libsql", url)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to open db %s", err)
 		return
 	}
 	defer db.Close()
+
 	log.Printf("Creating table")
 	_, err = db.Exec(createTableQuery)
 	if err != nil {
