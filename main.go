@@ -355,7 +355,12 @@ func main() {
 	// db, err := sql.Open("libsql", dbName)
 	tursoUrl := os.Getenv("GROUP_800_TURSO_URL")
 	tursoToken := os.Getenv("GROUP_800_TURSO_TOKEN")
+  
+log.Println(tursoUrl)
+if tursoUrl == ""{
+  log.Fatal("No turso url found in .bashrc")
 
+}
 	url := fmt.Sprintf("%s?authToken=%s", tursoUrl, tursoToken)
 
 	db, err := sql.Open("libsql", url)
@@ -374,6 +379,6 @@ func main() {
 	// simulateWebhook(db)
 
 	http.HandleFunc("/webhook", webhookHandler(db))
-	log.Println("Starting server on :443 with HTTPS...")
-	log.Fatal(http.ListenAndServeTLS(":443", "/etc/letsencrypt/live/group800.silverlininggroup.co.uk/fullchain.pem", "/etc/letsencrypt/live/group800.silverlininggroup.co.uk/privkey.pem", nil))
+	log.Println("Starting server on :8443 with HTTPS...")
+	log.Fatal(http.ListenAndServeTLS(":8443", "/etc/letsencrypt/live/group800.silverlininggroup.co.uk/fullchain.pem", "/etc/letsencrypt/live/group800.silverlininggroup.co.uk/privkey.pem", nil))
 }
