@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+  "sync"
 
 	_ "github.com/tursodatabase/go-libsql"
 )
@@ -100,7 +101,7 @@ const createTableQuery = `
 	`
 
 const insertQuery = `
-	INSERT INTO webhooks (
+	INSERT OR REPLACE INTO webhooks (
 		id, event, sequence, dispatched_at, clocking_type, device_serial_number, client_id, user_id, user_card_number, user_first_name,
 		user_last_name, user_full_name, user_employee_number, department_id, department_name, location_id, location_name, project_id,
 		project_name, project_code, time_zone, time_logged, time_logged_rounded, time_inserted, clocking_action_type_id, verification_mode_id,
@@ -116,7 +117,7 @@ type WebhookPayload struct {
 // var webhookData []WebhookPayload
 
 // const webhookSecret = "tmkey_gwCFPntotcNaH3454dEpayxn2uoPYvWU" // replace with the actual secret
-
+var dbMutex sync.Mutex
 func webhookHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
@@ -237,6 +238,8 @@ func nullString(s *string) interface{} {
 }
 
 func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
+  dbMutex.Lock()
+  defer dbMutex.Unlock()
 	// log.Println("POST - Request received")
 
 	// Print all headers
@@ -282,7 +285,10 @@ func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 		webhook.Data.ClockingSequenceID, webhook.Data.PlanningID, webhook.Data.AbsenceTypeID, webhook.Data.AbsenceTypeName, webhook.Data.Color,
 		webhook.Data.Comment, webhook.Data.PayPeriodID, webhook.Data.PayPeriodName)
 	if err != nil {
-		log.Fatal(err)
+    log.Println("Failed to insert data")
+    fmt.Println(err)
+    http.Error(w, "Failed to insert data", http.StatusInternalServerError)
+    return
 	}
 
 	fmt.Println("Record inserted successfully")
@@ -342,7 +348,7 @@ func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 func main() {
 	var db *sql.DB
 
-	dbName := "file:.webhook.db"
+	dbName := "file:.webhook.db?_journal_mode=WAL"
 
 	db, err := sql.Open("libsql", dbName)
 	if err != nil {
