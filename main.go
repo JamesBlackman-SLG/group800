@@ -356,7 +356,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	simulateWebhook(db)
+	// simulateWebhook(db)
 
 	http.HandleFunc("/webhook", webhookHandler(db))
 	log.Println("Starting server on :443 with HTTPS...")
