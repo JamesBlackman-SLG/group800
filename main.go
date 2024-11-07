@@ -61,7 +61,7 @@ type Data struct {
 
 const createTableQuery = `
 	CREATE TABLE IF NOT EXISTS webhooks (
-		id TEXT,
+		id TEXT PRIMARY KEY,
 		event TEXT,
 		sequence INTEGER,
 		dispatched_at INTEGER,
