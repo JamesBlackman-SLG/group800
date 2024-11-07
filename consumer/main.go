@@ -12,7 +12,6 @@ import (
 	"sync"
 
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
-	// _ "github.com/tursodatabase/go-libsql"
 )
 
 type Webhook struct {
@@ -110,10 +109,6 @@ const insertQuery = `
 		pay_period_id, pay_period_name
 	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 	`
-
-const todaysLate = `
-  select id, event, user_full_name, location_name, clocking_type, time(datetime(time_logged)) from webhooks WHERE clocking_type='In' and date(datetime(time_logged)) = date('now') AND time(datetime(time_logged)) >= '08:00:00' order by dispatched_at;
-`
 
 type WebhookPayload struct {
 	Data map[string]interface{} `json:"data"`
@@ -372,13 +367,12 @@ func main() {
 	}
 	defer db.Close()
 
-	log.Printf("Creating table")
 	_, err = db.Exec(createTableQuery)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// simulateWebhook(db)
+	simulateWebhook(db)
 
 	http.HandleFunc("/webhook", webhookHandler(db))
 	log.Println("Starting server on :8443 with HTTPS...")
