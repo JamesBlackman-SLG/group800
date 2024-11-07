@@ -111,6 +111,10 @@ const insertQuery = `
 	) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 	`
 
+const todaysLate = `
+  select id, event, user_full_name, location_name, clocking_type, time(datetime(time_logged)) from webhooks WHERE clocking_type='In' and date(datetime(time_logged)) = date('now') AND time(datetime(time_logged)) >= '08:00:00' order by dispatched_at;
+`
+
 type WebhookPayload struct {
 	Data map[string]interface{} `json:"data"`
 }
@@ -355,12 +359,10 @@ func main() {
 	// db, err := sql.Open("libsql", dbName)
 	tursoUrl := os.Getenv("GROUP_800_TURSO_URL")
 	tursoToken := os.Getenv("GROUP_800_TURSO_TOKEN")
-  
-log.Println(tursoUrl)
-if tursoUrl == ""{
-  log.Fatal("No turso url found in .bashrc")
 
-}
+	if tursoUrl == "" {
+		log.Fatal("No turso url found in .bashrc")
+	}
 	url := fmt.Sprintf("%s?authToken=%s", tursoUrl, tursoToken)
 
 	db, err := sql.Open("libsql", url)
