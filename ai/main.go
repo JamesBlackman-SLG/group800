@@ -27,7 +27,7 @@ func main() {
 	}
 	defer db.Close()
 
-	_, err = analyzeTrends(db, "800 FAB")
+	err = analyzeTrendsForAllLocations(db)
 	if err != nil {
 		log.Fatalf("failed to analyze trends: %v", err)
 	}
