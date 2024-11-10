@@ -16,7 +16,7 @@ COPY consumer/ ./
 RUN go clean -modcache
 RUN go mod download
 RUN go mod tidy
-RUN go build -o group800consumer 
+RUN go build -o group800consumer
 # Use a minimal runtime image for the final stage
 FROM debian:bookworm-slim
 # Install necessary libraries and CA certificates for TLS connections
