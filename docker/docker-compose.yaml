@@ -1,0 +1,12 @@
+services:
+  aoftServer:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "50051:50051"
+    user: root
+    restart: always
+    image: slgltd/aoftserver:test
+    # Optional command for normal run
+    command: []
