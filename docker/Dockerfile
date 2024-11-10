@@ -39,7 +39,7 @@ COPY ../.certs /root/.certs
 RUN chmod -R 600 /root/.certs
 
 # Expose the port that the Go server listens on
-EXPOSE 50051
+EXPOSE 8443
 # Set environment variable for gRPC port
 ENV GROUP_800_GRPC_PORT=50051
 ENV GROUP_800_ENV=production

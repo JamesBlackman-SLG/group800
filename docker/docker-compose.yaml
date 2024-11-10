@@ -4,7 +4,7 @@ services:
       context: ../
       dockerfile: ./docker/Dockerfile
     ports:
-      - "50051:50051"
+      - "8443:8443"
     user: root
     restart: always
     image: slgltd/group800consumer:test
