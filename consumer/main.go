@@ -376,5 +376,5 @@ func main() {
 
 	http.HandleFunc("/webhook", webhookHandler(db))
 	log.Println("Starting server on :8443 with HTTPS...")
-	log.Fatal(http.ListenAndServeTLS(":8443", "/etc/letsencrypt/live/group800.silverlininggroup.co.uk/fullchain.pem", "/etc/letsencrypt/live/group800.silverlininggroup.co.uk/privkey.pem", nil))
+	log.Fatal(http.ListenAndServeTLS(":8443", "fullchain.pem", "privkey.pem", nil))
 }

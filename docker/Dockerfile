@@ -33,10 +33,10 @@ COPY --from=builder /app/group800consumer .
 RUN chmod +x /root/group800consumer
 
 # Copy the certificate files from the source folder to the runtime container
-COPY ../.certsSAN /root/.certsSAN
+COPY ../.certs /root/.certs
 
 # Set permissions for the certificates
-RUN chmod -R 600 /root/.certsSAN
+RUN chmod -R 600 /root/.certs
 
 # Expose the port that the Go server listens on
 EXPOSE 50051
@@ -48,4 +48,3 @@ ENV GROUP_800_TURSO_TOKEN=eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpY
 
 # Command to run the Go server
 ENTRYPOINT ["./group800consumer"]
-

@@ -1,5 +1,5 @@
 services:
-  aoftServer:
+  group800consumer:
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
@@ -7,6 +7,6 @@ services:
       - "50051:50051"
     user: root
     restart: always
-    image: slgltd/aoftserver:test
+    image: slgltd/group800consumer:test
     # Optional command for normal run
     command: []
