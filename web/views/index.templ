@@ -93,8 +93,12 @@ templ Index(locations []*Location, dt time.Time) {
 							navigateDate(-1);
 						} else if (event.key === 'ArrowRight' || event.key === 'l') {
 							navigateDate(1);
-						}
-					});
+					} else if (event.key === 'j') {
+						window.scrollBy(0, 8);
+					} else if (event.key === 'k') {
+						window.scrollBy(0, -8);
+					}
+										});
 										</script>
 					<section class="mt-6 px-2 py-2 w-full max-w-4xl">
 						<ul id="location-list">
