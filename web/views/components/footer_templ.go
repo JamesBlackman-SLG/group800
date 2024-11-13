@@ -29,7 +29,7 @@ func Footer() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"fixed p-1 bottom-0 bg-gray-100 w-full border-t\"><div class=\"rounded-lg p-4 text-xs italic text-gray-700 text-center\">&copy; Silver Lining Group Ltd </div></footer>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"fixed p-1 bottom-0 bg-gray-100 w-full border-t\"><div class=\"rounded-lg p-4 text-xs italic text-gray-700 text-center\">&copy; Silver Lining Group Ltd  <a href=\"/signout\" class=\"ml-4 text-blue-500 hover:underline\">Sign Out</a></div></footer>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

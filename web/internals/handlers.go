@@ -21,6 +21,20 @@ func render(ctx *gin.Context, status int, template templ.Component) error {
 	return template.Render(ctx.Request.Context(), ctx.Writer)
 }
 
+func (app *Config) loginPageHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var err error
+		_, cancel := context.WithTimeout(context.Background(), appTimeout)
+		defer cancel()
+
+		err = render(ctx, http.StatusOK, views.LoginPage())
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+	}
+}
+
 func (app *Config) indexPageHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var d time.Time
@@ -74,6 +88,13 @@ func (app *Config) indexPageHandler() gin.HandlerFunc {
 func (app *Config) logoHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		imagePath := filepath.Join("views", "images", "logo.png")
+		c.File(imagePath)
+	}
+}
+
+func (app *Config) handleStyles() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		imagePath := filepath.Join("views", "images", "styles.css")
 		c.File(imagePath)
 	}
 }

@@ -110,7 +110,7 @@ func Index(locations []*Location, dt time.Time) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><main class=\"min-h-screen w-full\"><nav class=\"flex w-full border border-b-zinc-200 px-4 py-4\"><h3 class=\"text-base lg:text-lg font-large text-center\">Demo</h3><img src=\"/logo\" alt=\"Logo\" class=\"ml-auto h-8\"></nav><div class=\"mt-6 w-full flex justify-center items-center flex-col\"><div class=\"flex items-center justify-center\"><button onclick=\"navigateDate(-1)\" class=\"text-xl px-2\">&#9664;</button><h1 class=\"text-2xl font-medium text-center mx-4\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><main class=\"min-h-screen w-full\"><nav class=\"flex w-full border border-b-zinc-200 px-4 py-4\"><h3 class=\"text-base lg:text-lg font-large text-center\">Attendance Report</h3><img src=\"/logo\" alt=\"Logo\" class=\"ml-auto h-8\"></nav><div class=\"mt-6 w-full flex justify-center items-center flex-col\"><div class=\"flex items-center justify-center\"><button onclick=\"navigateDate(-1)\" class=\"text-xl px-2\">&#9664;</button><h1 class=\"text-2xl font-medium text-center mx-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

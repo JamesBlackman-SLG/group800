@@ -1,4 +1,5 @@
 #!/bin/bash
+npm run build:css
 
 # Templ templates
 templ generate
