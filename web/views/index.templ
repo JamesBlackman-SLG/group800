@@ -78,6 +78,7 @@ templ Index(locations []*Location, dt time.Time) {
 						<button onclick="navigateDate(-1)" class="text-xl px-2">&#9664;</button>
 						<h1 class="text-2xl font-medium text-center mx-4">{ dt.Format("Monday 02 January 2006") }</h1>
 						<button onclick="navigateDate(1)" class="text-xl px-2">&#9654;</button>
+						<button onclick="reloadPage()" class="text-xl px-2">&#x21bb;</button> <!-- Refresh icon -->
 					</div>
 					<script>
 						function navigateDate(offset) {
@@ -119,7 +120,7 @@ templ Index(locations []*Location, dt time.Time) {
 													</thead>
 													<tbody>
 														for _, c:= range l.Data {
-															<tr class="border p-2 rounded-lg mb-2">
+															<tr class="border p-2 rounded-lg mb-2 hover:bg-yellow-200">
 																<td class="font-medium text-sm w-1/4">{ c.Name }</td>
 																<td class={ getCheckInClass(c.CheckIn) }>{ c.CheckIn } { getIsLate(c.CheckIn) }</td>
 																<td class={ getCheckOutClass(c.CheckOut) }>{ c.CheckOut } { getIsEarly(c.CheckOut) }</td>
@@ -145,9 +146,7 @@ templ Index(locations []*Location, dt time.Time) {
 	</html>
 	<script>
 		function reloadPage() {
-			 setTimeout(function() {
-            window.location.reload();
-        }, 2000);
+      window.location.reload();
 		}
 	</script>
 }

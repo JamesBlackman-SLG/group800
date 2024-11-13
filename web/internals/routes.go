@@ -15,5 +15,7 @@ func (app *Config) Routes() {
 	// views
 	app.Router.GET("/", app.indexPageHandler())
 	app.Router.GET("/:d", app.indexPageHandler())
-	app.Router.GET("/logo", app.imagesHandler())
+	app.Router.GET("/logo", app.logoHandler())
+	app.Router.GET("/favicon/:f", app.faviconHandler())
+	app.Router.GET("/manifest.json", app.manifestJson())
 }

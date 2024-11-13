@@ -71,10 +71,29 @@ func (app *Config) indexPageHandler() gin.HandlerFunc {
 	}
 }
 
-func (app *Config) imagesHandler() gin.HandlerFunc {
+func (app *Config) logoHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		imagePath := filepath.Join("views", "images", "logo.png") // Replace "example.jpg" with your image file name
+		imagePath := filepath.Join("views", "images", "logo.png")
 		c.File(imagePath)
+	}
+}
+
+func (app *Config) faviconHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		faviconParam := c.Param("f")
+		fmt.Println(faviconParam)
+		if faviconParam == "" {
+			faviconParam = "default" // Use "default" if no parameter is provided
+		}
+		faviconPath := filepath.Join("views", "images", "favicon", faviconParam)
+		c.File(faviconPath)
+	}
+}
+
+func (app *Config) manifestJson() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		docPath := filepath.Join("views", "images", "manifest.json")
+		c.File(docPath)
 	}
 }
 
@@ -93,7 +112,7 @@ SELECT
         ELSE 
           ''
     END AS duration
-FROM 
+FROM
     webhooks ci
 LEFT JOIN 
     webhooks co 
