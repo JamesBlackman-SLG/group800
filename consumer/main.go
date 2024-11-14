@@ -114,9 +114,6 @@ type WebhookPayload struct {
 	Data map[string]interface{} `json:"data"`
 }
 
-// var webhookData []WebhookPayload
-
-// const webhookSecret = "tmkey_gwCFPntotcNaH3454dEpayxn2uoPYvWU" // replace with the actual secret
 var dbMutex sync.Mutex
 
 func webhookHandler(db *sql.DB) http.HandlerFunc {
@@ -176,7 +173,7 @@ func simulateWebhook(db *sql.DB) {
 	var webhook Webhook
 	err := json.Unmarshal([]byte(body), &webhook)
 	if err != nil {
-		fmt.Println("Error unmarshaling JSON:", err)
+		fmt.Println("Error unmarshalling JSON:", err)
 		return
 	}
 	// log.Println("Webhook:", webhook)
@@ -241,7 +238,6 @@ func nullString(s *string) interface{} {
 func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	dbMutex.Lock()
 	defer dbMutex.Unlock()
-	// log.Println("POST - Request received")
 
 	// Print all headers
 	// for key, values := range r.Header {
@@ -293,58 +289,7 @@ func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("Record inserted successfully")
-
-	// Verify the signature
-	// if !verifySignature(body, signature) {
-	// 	log.Printf("Signature verification failed")
-	// 	// log.Printf("Expected Signature: %s", calculateExpectedSignature(body))
-	// 	// log.Printf("Received Signature: %s", signature)
-	// 	// http.Error(w, "Invalid signature", http.StatusForbidden)
-	// 	return
-	// }
-
-	// Reset the request body so it can be read again
-	// r.Body = io.NopCloser(bytes.NewBuffer(body))
-
-	// Decode the payload
-	// var payload WebhookPayload
-	// err = json.NewDecoder(r.Body).Decode(&payload)
-	// if err != nil {
-	// http.Error(w, "Invalid payload", http.StatusBadRequest)
-	// return
-	// }
-
-	// Store the payload in memory
-	// webhookData = append(webhookData, payload)
-	// fmt.Fprintln(w, "POST webhook received successfully")
-	// log.Printf("POST - Received webhook data: %+v\n", payload)
 }
-
-// func verifySignature(body []byte, signature string) bool {
-// 	expectedSignature := calculateExpectedSignature(body)
-//
-// 	// Strip "sha256=" prefix if present for comparison
-// 	signatureNoPrefix := strings.TrimPrefix(signature, "sha256=")
-// 	expectedSignatureNoPrefix := strings.TrimPrefix(expectedSignature, "sha256=")
-//
-// 	// Log the stripped values to help debug
-// 	log.Printf("Expected Signature (no prefix): %s", expectedSignatureNoPrefix)
-// 	log.Printf("Received Signature (no prefix): %s", signatureNoPrefix)
-//
-// 	// Compare all possible variants
-// 	return hmac.Equal([]byte(signature), []byte(expectedSignature)) ||
-// 		hmac.Equal([]byte(signatureNoPrefix), []byte(expectedSignature)) ||
-// 		hmac.Equal([]byte(signature), []byte(expectedSignatureNoPrefix)) ||
-// 		hmac.Equal([]byte(signatureNoPrefix), []byte(expectedSignatureNoPrefix))
-// }
-
-// func calculateExpectedSignature(body []byte) string {
-// 	mac := hmac.New(sha256.New, []byte(webhookSecret))
-// 	mac.Write(body)
-// 	expectedMAC := mac.Sum(nil)
-// 	expectedSignature := "sha256=" + hex.EncodeToString(expectedMAC)
-// 	return expectedSignature
-// }
 
 func main() {
 	var db *sql.DB

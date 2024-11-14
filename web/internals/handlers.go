@@ -153,6 +153,7 @@ WHERE
     -- AND (co.time_logged IS NULL OR (time(datetime(ci.time_logged)) >= '08:05:00' OR time(datetime(co.time_logged)) <= '16:55:00'))
 GROUP BY 
     ci.user_id, ci.time_logged
+HAVING check_out_time = '' OR duration > '00:00'
 ORDER BY 
     ci.user_full_name, check_in;
 `
