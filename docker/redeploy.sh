@@ -1,3 +1,5 @@
+docker-compose build
+docker-compose push
 # Use the environment variables directly
 APP_ID="$DIGITAL_OCEAN_800_GROUP_APP_ID"
 API_TOKEN="$DIGITAL_OCEAN_API_TOKEN"
