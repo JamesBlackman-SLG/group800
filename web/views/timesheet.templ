@@ -1,0 +1,122 @@
+package views
+
+import (
+	"group800_web/views/components"
+	"time"
+)
+
+templ TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		@components.Header()
+		<body>
+			<input type="hidden" id="date" value={ dt.Format("2006-01-02") }/>
+			<input type="hidden" id="user" value={ user }/>
+			<main class="min-h-screen w-full">
+				<nav class="flex w-full border border-b-zinc-200 px-4 py-4">
+					<h3 class="text-base lg:text-lg font-large text-center">
+						{ user }
+					</h3>
+					<a href="/" class="ml-auto h-8">
+						<img src="/logo" alt="Logo" class="ml-auto h-8"/>
+					</a>
+				</nav>
+				<div class="mt-6 w-full flex justify-center items-center flex-col">
+					<div class="flex items-center justify-center">
+						<button onclick="navigateDate(-7)" class="text-xl px-2">&#9664;</button>
+						<h1 class="text-2xl font-medium text-center mx-4">{ dt.Format("Monday 02 January 2006") }</h1>
+						<button onclick="navigateDate(7)" class="text-xl px-2">&#9654;</button>
+						<button onclick="reloadPage()" class="text-xl px-2">&#x21bb;</button> <!-- Refresh icon -->
+					</div>
+					<script>
+						function navigateDate(offset) {
+              const currentDate = new Date(document.getElementById("date").value);
+							currentDate.setDate(currentDate.getDate() + offset);
+							const newDate = currentDate.toISOString().split('T')[0];
+              const user = document.getElementById("user").value;
+							window.location.href = "/timesheet/" + newDate + "/" + user;
+						}
+					document.addEventListener('keydown', function(event) {
+						if (event.key === 'ArrowLeft' || event.key === 'h') {
+							navigateDate(-7);
+						} else if (event.key === 'ArrowRight' || event.key === 'l') {
+							navigateDate(7);
+					} else if (event.key === 'j') {
+						window.scrollBy(0, 8);
+					} else if (event.key === 'k') {
+						window.scrollBy(0, -8);
+					}
+										});
+										</script>
+					<section class="mt-6 px-2 py-2 w-full max-w-4xl">
+						<ul id="timesheet-list">
+							<li class="ml-4 ml-4 border p-2 rounded-lg mb-2">
+								<div class="flex gap-4 items-center mt-2">
+									<div class="mt-6 w-full flex-col">
+										<section class="">
+											<table class="table-fixed w-full">
+												<thead>
+													<tr>
+														<th class="w-1/4">Day</th>
+														<th class="w-1/4">Location</th>
+														<th class="w-1/4">Check In</th>
+														<th class="w-1/4">Check Out</th>
+														<th class="w-1/4">Duration</th>
+													</tr>
+												</thead>
+												<tbody>
+													for _, w := range week {
+														if len(w.Data) == 0 {
+															<tr class="border p-2 rounded-lg mb-2 hover:bg-yellow-200">
+																<td class="font-medium text-sm w-1/4">
+																	{ w.Date.Weekday().String() }
+																</td>
+																<td class="font-medium text-sm w-1/4"></td>
+																<td></td>
+																<td></td>
+																<td></td>
+															</tr>
+														} else {
+															for _, c := range w.Data {
+																<tr class="border p-2 rounded-lg mb-2 hover:bg-yellow-200">
+																	<td class="font-medium text-sm w-1/4">
+																		{ w.Date.Weekday().String() }
+																	</td>
+																	<td class="font-medium text-sm w-1/4">
+																		{ c.Location }
+																	</td>
+																	<td class={ getCheckInClass(c.CheckIn) }>{ c.CheckIn } { getIsLate(c.CheckIn) }</td>
+																	<td class={ getCheckOutClass(c.CheckOut) }>{ c.CheckOut } { getIsEarly(c.CheckOut) }</td>
+																	<td class="font-medium text-sm w-1/4">{ c.Duration }</td>
+																</tr>
+															}
+														}
+													}
+												</tbody>
+											</table>
+										</section>
+									</div>
+								</div>
+							</li>
+							<div class="flex justify-center mt-4">
+								<a href="/" class="flex items-center text-blue-500 hover:text-blue-700 font-bold">
+									<span class="mr-4">&#8592;</span>&nbsp; <!-- Left arrow with increased right margin -->
+									<span>Home</span>
+								</a>
+							</div>
+						</ul>
+					</section>
+				</div>
+			</main>
+		</body>
+		<br/>
+		<br/>
+		<br/>
+		@components.Footer()
+	</html>
+	<script>
+		function reloadPage() {
+      window.location.reload();
+		}
+	</script>
+}

@@ -27,8 +27,10 @@ func main() {
 	}
 	defer db.Close()
 
-	err = analyzeTrendsForAllLocations(db)
-	if err != nil {
-		log.Fatalf("failed to analyze trends: %v", err)
-	}
+	export(db)
+
+	// err = analyzeTrendsForAllLocations(db)
+	// if err != nil {
+	// 	log.Fatalf("failed to analyze trends: %v", err)
+	// }
 }

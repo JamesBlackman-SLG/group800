@@ -6,14 +6,19 @@ import (
 	"time"
 )
 
+type WeeklyTimeSheet struct {
+	Date time.Time
+	Data []CheckInData
+}
+
 type Location struct {
 	Name string
 	Data []CheckInData
 }
 
 type CheckInData struct {
-	Name string `json:"name"`
-	// LocationName      string `json:"locationName"`
+	Date     string `json:"date"`
+	Name     string `json:"name"`
 	Type     string `json:"type"`
 	Time     string `json:"time"`
 	Location string `json:"location"`
@@ -30,9 +35,18 @@ func getCheckInClass(checkIn string) string {
 	return "font-medium text-sm w-1/4"
 }
 
+func GetTimeSheetLink(date time.Time, name string) string {
+	// Calculate the start of the week (Monday)
+	offset := (int(date.Weekday()) + 6) % 7 // Adjust so Monday is 0
+	startOfWeek := date.AddDate(0, 0, -offset)
+
+	href := fmt.Sprintf("/timesheet/%s/%s", startOfWeek.Format("2006-01-02"), name)
+	return href
+}
+
 func getIsLate(checkIn string) string {
 	if checkIn > "08:00" {
-		return " (late)"
+		return " *"
 
 	}
 	return ""
@@ -54,7 +68,7 @@ func getIsEarly(checkOut string) string {
 		return ""
 	}
 	if checkOut < "17:00" {
-		return " (early)"
+		return " *"
 
 	}
 	return ""
@@ -121,7 +135,9 @@ templ Index(locations []*Location, dt time.Time) {
 													<tbody>
 														for _, c:= range l.Data {
 															<tr class="border p-2 rounded-lg mb-2 hover:bg-yellow-200">
-																<td class="font-medium text-sm w-1/4">{ c.Name }</td>
+																<td class="font-medium text-sm w-1/4">
+																	<a href={ templ.URL(GetTimeSheetLink(dt, c.Name)) }>{ c.Name }</a>
+																</td>
 																<td class={ getCheckInClass(c.CheckIn) }>{ c.CheckIn } { getIsLate(c.CheckIn) }</td>
 																<td class={ getCheckOutClass(c.CheckOut) }>{ c.CheckOut } { getIsEarly(c.CheckOut) }</td>
 																<td class="font-medium text-sm w-1/4">{ c.Duration }</td>

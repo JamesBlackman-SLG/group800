@@ -1,7 +1,3 @@
-// const todaysData = `
-//   select id, event, user_full_name, location_name, clocking_type, time(datetime(time_logged)) from webhooks WHERE clocking_type='In' and date(datetime(time_logged)) = date('now') AND time(datetime(time_logged)) >= '08:00:00' order by dispatched_at;
-// `
-
 package main
 
 import (

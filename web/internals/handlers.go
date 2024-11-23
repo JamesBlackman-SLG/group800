@@ -85,6 +85,82 @@ func (app *Config) indexPageHandler() gin.HandlerFunc {
 	}
 }
 
+func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var d time.Time
+		var err error
+		_, cancel := context.WithTimeout(context.Background(), appTimeout)
+		defer cancel()
+		dateParam := ctx.Param("d")
+
+		if dateParam != "" {
+			d, err = time.Parse("2006-01-02", dateParam)
+			if err != nil {
+				ctx.JSON(http.StatusBadRequest, err.Error())
+				return
+			}
+		} else {
+			d = time.Now()
+		}
+
+		userFullName := ctx.Param("u")
+
+		// var data []views.CheckInData
+		var weeklyData []*views.WeeklyTimeSheet
+
+		// range over the week
+		for i := 0; i < 7; i++ {
+			today := d.Add(time.Duration(i) * time.Hour * 24)
+			todaysData, err := weeklyTimeSheet(app.DB, userFullName, today)
+			if err != nil {
+				log.Println(err)
+				ctx.JSON(http.StatusBadRequest, err.Error())
+			}
+
+			ww := views.WeeklyTimeSheet{
+				Date: today,
+				Data: todaysData,
+			}
+			weeklyData = append(weeklyData, &ww)
+			// fmt.Println(d.Format("2006-01-02"))
+			//
+			// //	Create a new tab writer
+			// var buf bytes.Buffer
+			// writer := tabwriter.NewWriter(&buf, 0, 0, 1, ' ', tabwriter.Debug)
+			//
+			// // Write the header
+			// fmt.Fprintln(writer, "Date\tName\tLocation\tCheck In\tCheck Out\tDuration")
+			//
+			// // Write the data
+			// for _, row := range todaysData {
+			// 	name := row.Name
+			// 	if len(name) > 24 {
+			// 		name = name[:24] // Truncate if longer than 20 characters
+			// 	} else {
+			// 		name = fmt.Sprintf("%-24s", name) // Left-align and pad with spaces to 20 characters
+			// 	}
+			// 	dayOfWeek := today.Weekday().String()
+			// 	fmt.Fprintf(writer, "%s\t%s\t%s\t%s\t%s\t%s\n", dayOfWeek, name, row.Location, row.CheckIn, row.CheckOut, row.Duration)
+			// }
+			//
+			// // Flush the writer
+			// writer.Flush()
+			//
+			// // Print the tabulated data
+			// fmt.Println(buf.String())
+			// data = append(data, todaysData...)
+		}
+
+		// ctx.String(200, "message")
+
+		err = render(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, userFullName))
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+	}
+}
+
 func (app *Config) logoHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		imagePath := filepath.Join("views", "images", "logo.png")

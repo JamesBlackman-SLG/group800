@@ -80,4 +80,6 @@ func (app *Config) Routes() {
 	// app.Router.GET("/login", app.loginPageHandler())
 	app.Router.GET("/", app.indexPageHandler())
 	app.Router.GET("/:d", app.indexPageHandler())
+
+	app.Router.GET("/timesheet/:d/:u", app.timeSheetPageHandler())
 }
