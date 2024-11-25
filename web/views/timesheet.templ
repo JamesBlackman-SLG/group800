@@ -13,15 +13,13 @@ templ TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*Use
 			<input type="hidden" id="date" value={ dt.Format("2006-01-02") }/>
 			<input type="hidden" id="user" value={ user }/>
 			<main class="min-h-screen w-full">
+				@components.Menu()
 				<nav class="flex w-full border border-b-zinc-200 px-4 py-4">
-					<h3 class="text-base lg:text-lg font-large text-center">
-						{ user }
-					</h3>
 					<a href="/" class="ml-auto h-8">
 						<img src="/logo" alt="Logo" class="ml-auto h-8"/>
 					</a>
 				</nav>
-				@UserList(users)
+				<!-- @UserList(users) -->
 				<div class="mt-6 w-full flex justify-center items-center flex-col">
 					<div class="flex items-center justify-center">
 						<button onclick="navigateDate(-7)" class="text-xl px-2">&#9664;</button>
@@ -49,6 +47,9 @@ templ TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*Use
 					}
 										});
 										</script>
+					<h3 class="mt-6 text-base lg:text-lg font-large text-center">
+						{ user }
+					</h3>
 					<section class="mt-6 px-2 py-2 w-full max-w-4xl">
 						<ul id="timesheet-list">
 							<li class="ml-4 ml-4 border p-2 rounded-lg mb-2">
