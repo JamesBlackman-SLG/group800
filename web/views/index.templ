@@ -60,7 +60,7 @@ templ Index(locations []*Location, dt time.Time) {
 		<body>
 			<input type="hidden" id="date" value={ dt.Format("2006-01-02") }/>
 			<main class="min-h-screen w-full">
-				@components.Menu()
+				@components.Menu("/")
 				<div class="mt-6 w-full flex justify-center items-center flex-col">
 					<div class="flex items-center justify-center">
 						<button onclick="navigateDate(-1)" class="text-xl px-2">&#9664;</button>

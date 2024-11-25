@@ -13,7 +13,7 @@ templ TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*Use
 			<input type="hidden" id="date" value={ dt.Format("2006-01-02") }/>
 			<input type="hidden" id="user" value={ user }/>
 			<main class="min-h-screen w-full">
-				@components.Menu()
+				@components.Menu("")
 				<nav class="flex w-full border border-b-zinc-200 px-4 py-4">
 					<a href="/" class="ml-auto h-8">
 						<img src="/logo" alt="Logo" class="ml-auto h-8"/>

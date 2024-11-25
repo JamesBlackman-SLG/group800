@@ -8,7 +8,7 @@ templ UserList(Users []*User) {
 		@components.Header()
 		<body>
 			<main class="min-h-screen w-full">
-				@components.Menu()
+				@components.Menu("/users")
 				<div class="mt-6 w-full flex justify-center items-center flex-col">
 					<section class="mt-6 px-2 py-2 w-full max-w-4xl">
 						<ul id="user-list">
