@@ -13,7 +13,8 @@ templ UserList(Users []*User) {
 			<main class="min-h-screen w-full">
 				@components.Menu("/users")
 				<div class="mt-6 w-full flex justify-center items-center flex-col">
-					<section class="mt-6 px-2 py-2 w-full max-w-4xl">
+					<input type="text" id="searchBox" placeholder="Search users..." class="border p-2 rounded-lg mb-4 w-full max-w-4xl" onkeyup="filterUsers()"/>
+					<section class="px-2 py-2 w-full max-w-4xl">
 						<ul id="user-list">
 							for _, u := range Users {
 								<li class="ml-4 ml-4 border rounded-lg mb-2">
@@ -26,5 +27,21 @@ templ UserList(Users []*User) {
 			</main>
 		</body>
 		@components.Footer()
+		<script>
+			function filterUsers() {
+				const searchInput = document.getElementById('searchBox').value.toLowerCase();
+				const userList = document.getElementById('user-list');
+				const users = userList.getElementsByTagName('li');
+
+				for (let i = 0; i < users.length; i++) {
+					const userName = users[i].textContent || users[i].innerText;
+					if (userName.toLowerCase().indexOf(searchInput) > -1) {
+						users[i].style.display = "";
+					} else {
+						users[i].style.display = "none";
+					}
+				}
+			}
+		</script>
 	</html>
 }
