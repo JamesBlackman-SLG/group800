@@ -29,7 +29,7 @@ func (app *Config) usersPageHandler() gin.HandlerFunc {
 			return
 		}
 
-		err = render(ctx, http.StatusOK, views.Users(users))
+		err = render(ctx, http.StatusOK, views.UserList(users))
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return

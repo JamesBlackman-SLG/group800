@@ -1,8 +1,18 @@
 package components
 
+func isThisSelected(path string, currentPath string) string {
+	if path == currentPath {
+		return "text-blue-500 text-base lg:text-lg font-large text-center mr-4"
+	}
+	return "text-black text-base lg:text-lg font-large text-center mr-4"
+}
+
 templ Menu(currentPath string) {
 	<nav class="flex w-full border border-b-zinc-200 px-4 py-4">
-		<a href="/" class={if currentPath == "/" {"text-blue-500 "} else {"text-black "}} + "text-base lg:text-lg font-large text-center mr-4">Today</a>
-		<a href="/users" class={if currentPath == "/users" {"text-blue-500 "} else {"text-black "}} + "text-base lg:text-lg font-large text-center mr-4">Users</a>
+		<a href="/" class={ isThisSelected("/", currentPath) }>Today</a>
+		<a href="/users" class={ isThisSelected("/users", currentPath) }>Users</a>
+		<a href="/" class="ml-auto h-8">
+			<img src="/logo" alt="Logo" class="ml-auto h-8"/>
+		</a>
 	</nav>
 }

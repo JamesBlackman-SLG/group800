@@ -14,11 +14,6 @@ templ TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*Use
 			<input type="hidden" id="user" value={ user }/>
 			<main class="min-h-screen w-full">
 				@components.Menu("")
-				<nav class="flex w-full border border-b-zinc-200 px-4 py-4">
-					<a href="/" class="ml-auto h-8">
-						<img src="/logo" alt="Logo" class="ml-auto h-8"/>
-					</a>
-				</nav>
 				<!-- @UserList(users) -->
 				<div class="mt-6 w-full flex justify-center items-center flex-col">
 					<div class="flex items-center justify-center">
@@ -100,12 +95,6 @@ templ TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*Use
 									</div>
 								</div>
 							</li>
-							<div class="flex justify-center mt-4">
-								<a href="/" class="flex items-center text-blue-500 hover:text-blue-700 font-bold">
-									<span class="mr-4">&#8592;</span>&nbsp; <!-- Left arrow with increased right margin -->
-									<span>Home</span>
-								</a>
-							</div>
 						</ul>
 					</section>
 				</div>
