@@ -153,7 +153,13 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 
 		// ctx.String(200, "message")
 
-		err = render(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, userFullName))
+		users, err := app.listUsers(app.DB)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+
+		err = render(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, userFullName, users))
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return

@@ -8,6 +8,40 @@ import (
 	"time"
 )
 
+// listUsers retrieves a list of distinct user full names ordered alphabetically
+func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
+	query := `
+  SELECT DISTINCT user_full_name 
+  FROM webhooks 
+  ORDER BY user_full_name;
+`
+
+	rows, err := db.QueryContext(context.Background(), query)
+	if err != nil {
+		return nil, fmt.Errorf("query execution failed: %w", err)
+	}
+	defer rows.Close()
+
+	var users []*views.User
+
+	// Iterate over the rows
+	for rows.Next() {
+		var user views.User
+		err := rows.Scan(&user.FullName)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan row: %w", err)
+		}
+		users = append(users, &user)
+	}
+
+	// Check for errors during iteration
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("row iteration error: %w", err)
+	}
+
+	return users, nil
+}
+
 // FetchDistinctLocations retrieves a list of distinct location names for the current day
 func (app *Config) fetchDistinctLocations(db *sql.DB, d time.Time) ([]string, error) {
 	query := `

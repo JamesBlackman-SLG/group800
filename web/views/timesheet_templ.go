@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Component {
+func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*User) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -81,14 +81,22 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h3><a href=\"/\" class=\"ml-auto h-8\"><img src=\"/logo\" alt=\"Logo\" class=\"ml-auto h-8\"></a></nav><div class=\"mt-6 w-full flex justify-center items-center flex-col\"><div class=\"flex items-center justify-center\"><button onclick=\"navigateDate(-7)\" class=\"text-xl px-2\">&#9664;</button><h1 class=\"text-2xl font-medium text-center mx-4\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h3><a href=\"/\" class=\"ml-auto h-8\"><img src=\"/logo\" alt=\"Logo\" class=\"ml-auto h-8\"></a></nav>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = UserList(users).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-6 w-full flex justify-center items-center flex-col\"><div class=\"flex items-center justify-center\"><button onclick=\"navigateDate(-7)\" class=\"text-xl px-2\">&#9664;</button><h1 class=\"text-2xl font-medium text-center mx-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(dt.Format("Monday 02 January 2006"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 27, Col: 93}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 28, Col: 93}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -107,7 +115,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(w.Date.Weekday().String())
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 72, Col: 44}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 73, Col: 44}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -126,7 +134,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 					var templ_7745c5c3_Var7 string
 					templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(w.Date.Weekday().String())
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 83, Col: 45}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 84, Col: 45}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 					if templ_7745c5c3_Err != nil {
@@ -139,7 +147,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 					var templ_7745c5c3_Var8 string
 					templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(c.Location)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 86, Col: 30}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 87, Col: 30}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 					if templ_7745c5c3_Err != nil {
@@ -174,7 +182,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 					var templ_7745c5c3_Var11 string
 					templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(c.CheckIn)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 88, Col: 69}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 89, Col: 69}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 					if templ_7745c5c3_Err != nil {
@@ -187,7 +195,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 					var templ_7745c5c3_Var12 string
 					templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(getIsLate(c.CheckIn))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 88, Col: 94}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 89, Col: 94}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 					if templ_7745c5c3_Err != nil {
@@ -222,7 +230,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 					var templ_7745c5c3_Var15 string
 					templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(c.CheckOut)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 89, Col: 72}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 90, Col: 72}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 					if templ_7745c5c3_Err != nil {
@@ -235,7 +243,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 					var templ_7745c5c3_Var16 string
 					templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(getIsEarly(c.CheckOut))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 89, Col: 99}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 90, Col: 99}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 					if templ_7745c5c3_Err != nil {
@@ -248,7 +256,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string) templ.Compone
 					var templ_7745c5c3_Var17 string
 					templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(c.Duration)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 90, Col: 67}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/timesheet.templ`, Line: 91, Col: 67}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 					if templ_7745c5c3_Err != nil {
