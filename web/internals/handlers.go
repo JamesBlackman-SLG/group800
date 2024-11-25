@@ -21,6 +21,22 @@ func render(ctx *gin.Context, status int, template templ.Component) error {
 	return template.Render(ctx.Request.Context(), ctx.Writer)
 }
 
+func (app *Config) usersPageHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		users, err := app.listUsers(app.DB)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+
+		err = render(ctx, http.StatusOK, views.Users(users))
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+	}
+}
+
 func (app *Config) loginPageHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var err error
