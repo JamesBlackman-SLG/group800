@@ -2,7 +2,7 @@ package components
 
 templ Menu(currentPath string) {
 	<nav class="flex w-full border border-b-zinc-200 px-4 py-4">
-		// <a href="/" class={if currentPath == "/" {"text-blue-500 "} else {"text-black "}} + "text-base lg:text-lg font-large text-center mr-4">Today</a>
-		// <a href="/users" class={if currentPath == "/users" {"text-blue-500 "} else {"text-black "}} + "text-base lg:text-lg font-large text-center mr-4">Users</a>
+		<a href="/" class={if currentPath == "/" {"text-blue-500 "} else {"text-black "}} + "text-base lg:text-lg font-large text-center mr-4">Today</a>
+		<a href="/users" class={if currentPath == "/users" {"text-blue-500 "} else {"text-black "}} + "text-base lg:text-lg font-large text-center mr-4">Users</a>
 	</nav>
 }
