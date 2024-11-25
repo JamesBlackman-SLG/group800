@@ -1,6 +1,9 @@
 package views
 
-import "group800_web/views/components"
+import (
+	"group800_web/views/components"
+	"time"
+)
 
 templ UserList(Users []*User) {
 	<!DOCTYPE html>
@@ -14,7 +17,7 @@ templ UserList(Users []*User) {
 						<ul id="user-list">
 							for _, u := range Users {
 								<li class="ml-4 ml-4 border rounded-lg mb-2">
-									<a href={ templ.URL("/timesheet/2024-11-18/" + u.FullName) } class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">{ u.FullName }</a>
+									<a href={ templ.URL(GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.FullName)) } class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">{ u.FullName }</a>
 								</li>
 							}
 						</ul>
