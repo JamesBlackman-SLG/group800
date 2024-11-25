@@ -47,6 +47,7 @@ RUN chmod -R 600 /root/.certs
 # Expose the port that the Go server listens on
 EXPOSE 8080
 # Set environment variable for gRPC port
+ENV GIN_MODE=release
 ENV GROUP_800_GRPC_PORT=50051
 ENV GROUP_800_ENV=production
 ENV GROUP_800_TURSO_URL=libsql://group800-jamesblackman-slg.turso.io
