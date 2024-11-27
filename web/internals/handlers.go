@@ -21,6 +21,12 @@ func render(ctx *gin.Context, status int, template templ.Component) error {
 	return template.Render(ctx.Request.Context(), ctx.Writer)
 }
 
+func (app *Config) webHookHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		webhook.handlePost()
+	}
+}
+
 func (app *Config) usersPageHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		users, err := app.listUsers(app.DB)
