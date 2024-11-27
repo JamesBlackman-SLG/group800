@@ -234,7 +234,7 @@ func nullString(s *string) interface{} {
 	return *s
 }
 
-func handlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
+func HandlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	dbMutex.Lock()
 	defer dbMutex.Unlock()
 

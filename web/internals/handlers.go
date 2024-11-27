@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"group800_web/views"
+	"group800_web/web/webhook"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -23,7 +24,7 @@ func render(ctx *gin.Context, status int, template templ.Component) error {
 
 func (app *Config) webHookHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		webhook.handlePost()
+		webhook.HandlePost(app.DB, ctx.Writer, ctx.Request)
 	}
 }
 
