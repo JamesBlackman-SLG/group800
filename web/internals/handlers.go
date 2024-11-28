@@ -5,10 +5,12 @@ import (
 	"database/sql"
 	"fmt"
 	"group800_web/views"
-	"group800_web/web/webhook"
+	"group800_web/webhook"
+	"io"
 	"log"
 	"net/http"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/a-h/templ"
@@ -24,7 +26,21 @@ func render(ctx *gin.Context, status int, template templ.Component) error {
 
 func (app *Config) webHookHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		webhook.HandlePost(app.DB, ctx.Writer, ctx.Request)
+		signature := strings.TrimSpace(ctx.GetHeader("Timemoto-Signature"))
+		if signature == "" {
+			ctx.JSON(http.StatusBadRequest, "Missing signature")
+			return
+		}
+		bodyBytes, err := io.ReadAll(ctx.Request.Body)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, "Failed to read request body")
+			return
+		}
+		body := string(bodyBytes)
+		err = webhook.HandlePost(app.DB, body)
+		if err != nil {
+			log.Println(err)
+		}
 	}
 }
 

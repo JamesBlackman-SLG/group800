@@ -3,11 +3,9 @@ package webhook
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"io"
 	"log"
-	"net/http"
-	"strings"
 	"sync"
 
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
@@ -114,17 +112,6 @@ type WebhookPayload struct {
 }
 
 var dbMutex sync.Mutex
-
-func webhookHandler(db *sql.DB) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodPost:
-			handlePost(db, w, r)
-		default:
-			http.Error(w, "Method not supported", http.StatusMethodNotAllowed)
-		}
-	}
-}
 
 func simulateWebhook(db *sql.DB) {
 	body := `{
@@ -234,7 +221,7 @@ func nullString(s *string) interface{} {
 	return *s
 }
 
-func HandlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
+func HandlePost(db *sql.DB, body string) error {
 	dbMutex.Lock()
 	defer dbMutex.Unlock()
 
@@ -246,27 +233,14 @@ func HandlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	// }
 
 	// Retrieve the signature from the header
-	signature := strings.TrimSpace(r.Header.Get("Timemoto-Signature"))
-	if signature == "" {
-		http.Error(w, "Missing signature", http.StatusForbidden)
-		return
-	}
-
-	// Read and keep a copy of the body for reuse
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		http.Error(w, "Could not read request body", http.StatusInternalServerError)
-		return
-	}
-
 	// Log the raw body to help understand what's being hashed
 	log.Printf("%s", string(body))
 
 	var webhook Webhook
-	err = json.Unmarshal([]byte(body), &webhook)
+	err := json.Unmarshal([]byte(body), &webhook)
 	if err != nil {
 		fmt.Println("Error unmarshaling JSON:", err)
-		return
+		return errors.New("Invalid JSON")
 	}
 
 	log.Printf("id = %s", webhook.ID)
@@ -283,9 +257,9 @@ func HandlePost(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("Failed to insert data")
 		fmt.Println(err)
-		http.Error(w, "Failed to insert data", http.StatusInternalServerError)
-		return
+		return errors.New("Failed to insert data")
 	}
 
 	fmt.Println("Record inserted successfully")
+	return nil
 }

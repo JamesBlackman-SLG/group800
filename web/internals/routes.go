@@ -64,6 +64,8 @@ func (app *Config) Routes() {
 	store := cookie.NewStore([]byte("secret"))
 	app.Router.Use(sessions.Sessions("mysession", store))
 
+	app.Router.POST("/webhook", app.webHookHandler())
+
 	// login
 	app.Router.GET("/login", app.loginPageHandler())
 	app.Router.POST("/signin", app.signInHandler())
