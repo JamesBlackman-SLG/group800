@@ -5,8 +5,11 @@ import (
 	"database/sql"
 	"fmt"
 	"group800_web/views"
+	"group800_web/webhook"
+	"io"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/a-h/templ"
@@ -48,6 +51,26 @@ func (app *Config) signOutHandler() gin.HandlerFunc {
 		session.Set("authenticated", false)
 		_ = session.Save()
 		c.Redirect(http.StatusFound, "/login")
+	}
+}
+
+func (app *Config) webHookHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		signature := strings.TrimSpace(ctx.GetHeader("Timemoto-Signature"))
+		if signature == "" {
+			ctx.JSON(http.StatusBadRequest, "Missing signature")
+			return
+		}
+		bodyBytes, err := io.ReadAll(ctx.Request.Body)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, "Failed to read request body")
+			return
+		}
+		body := string(bodyBytes)
+		err = webhook.HandlePost(app.DB, body)
+		if err != nil {
+			log.Println(err)
+		}
 	}
 }
 
