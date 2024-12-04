@@ -7,18 +7,48 @@ import (
 	"group800_web/views"
 	"log"
 	"net/http"
-	"path/filepath"
 	"time"
 
 	"github.com/a-h/templ"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 const appTimeout = time.Second * 10
 
-func render(ctx *gin.Context, status int, template templ.Component) error {
+func renderTemplate(ctx *gin.Context, status int, template templ.Component) error {
 	ctx.Status(status)
 	return template.Render(ctx.Request.Context(), ctx.Writer)
+}
+func (app *Config) signInHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// Dummy authentication logic
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+
+		if username == "admin" && password == "slg2024" {
+			log.Print("Login successful")
+			// Set a session to indicate successful login
+			session := sessions.Default(c)
+			session.Set("authenticated", true)
+			_ = session.Save()
+
+			c.Redirect(http.StatusFound, "/")
+		} else {
+			log.Print("Login failed")
+			c.Redirect(http.StatusFound, "/login?login=failed")
+			// c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid credentials"})
+		}
+	}
+}
+
+func (app *Config) signOutHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		session.Set("authenticated", false)
+		_ = session.Save()
+		c.Redirect(http.StatusFound, "/login")
+	}
 }
 
 func (app *Config) usersPageHandler() gin.HandlerFunc {
@@ -29,7 +59,7 @@ func (app *Config) usersPageHandler() gin.HandlerFunc {
 			return
 		}
 
-		err = render(ctx, http.StatusOK, views.UserList(users))
+		err = renderTemplate(ctx, http.StatusOK, views.UserList(users))
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
@@ -43,7 +73,7 @@ func (app *Config) loginPageHandler() gin.HandlerFunc {
 		_, cancel := context.WithTimeout(context.Background(), appTimeout)
 		defer cancel()
 
-		err = render(ctx, http.StatusOK, views.LoginPage())
+		err = renderTemplate(ctx, http.StatusOK, views.LoginPage())
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
@@ -53,8 +83,12 @@ func (app *Config) loginPageHandler() gin.HandlerFunc {
 
 func (app *Config) indexPageHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var d time.Time
-		var err error
+		var (
+			d         time.Time
+			err       error
+			locations []string
+			ll        []*views.Location
+		)
 		_, cancel := context.WithTimeout(context.Background(), appTimeout)
 		defer cancel()
 		dateParam := ctx.Param("d")
@@ -68,21 +102,24 @@ func (app *Config) indexPageHandler() gin.HandlerFunc {
 		} else {
 			d = time.Now()
 		}
-		// d = d.AddDate(0, 0, -3)
 
-		locations, err := app.fetchDistinctLocations(app.DB, d)
+		locations, err = app.fetchDistinctLocations(app.DB, d)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
 
-		var ll []*views.Location
-		for _, t := range locations {
+		if len(locations) == 0 {
+			ctx.JSON(http.StatusBadRequest, "No locations found")
+			return
+		}
 
+		for _, t := range locations {
 			data, err := dailyCheckInAnalysis(app.DB, t, d)
 			if err != nil {
 				ctx.JSON(http.StatusBadRequest, err.Error())
 				log.Println(err)
+				continue
 			}
 
 			l := &views.Location{
@@ -90,10 +127,14 @@ func (app *Config) indexPageHandler() gin.HandlerFunc {
 				Data: data,
 			}
 			ll = append(ll, l)
-
 		}
 
-		err = render(ctx, http.StatusOK, views.Index(ll, d))
+		if len(ll) == 0 {
+			ctx.JSON(http.StatusBadRequest, "No locations found")
+			return
+		}
+
+		err = renderTemplate(ctx, http.StatusOK, views.Index(ll, d))
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
@@ -175,44 +216,11 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 			return
 		}
 
-		err = render(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, userFullName, users))
+		err = renderTemplate(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, userFullName, users))
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
-	}
-}
-
-func (app *Config) logoHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		imagePath := filepath.Join("views", "images", "logo.png")
-		c.File(imagePath)
-	}
-}
-
-func (app *Config) handleStyles() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		imagePath := filepath.Join("views", "images", "styles.css")
-		c.File(imagePath)
-	}
-}
-
-func (app *Config) faviconHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		faviconParam := c.Param("f")
-		fmt.Println(faviconParam)
-		if faviconParam == "" {
-			faviconParam = "default" // Use "default" if no parameter is provided
-		}
-		faviconPath := filepath.Join("views", "images", "favicon", faviconParam)
-		c.File(faviconPath)
-	}
-}
-
-func (app *Config) manifestJson() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		docPath := filepath.Join("views", "images", "manifest.json")
-		c.File(docPath)
 	}
 }
 

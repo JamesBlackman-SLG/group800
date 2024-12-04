@@ -90,7 +90,7 @@ func UserList(Users []*User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n\t\t\tfunction filterUsers() {\n\t\t\t\tconst searchInput = document.getElementById('searchBox').value.toLowerCase();\n\t\t\t\tconst userList = document.getElementById('user-list');\n\t\t\t\tconst users = userList.getElementsByTagName('li');\n\n\t\t\t\tfor (let i = 0; i < users.length; i++) {\n\t\t\t\t\tconst userName = users[i].textContent || users[i].innerText;\n\t\t\t\t\tif (userName.toLowerCase().indexOf(searchInput) > -1) {\n\t\t\t\t\t\tusers[i].style.display = \"\";\n\t\t\t\t\t} else {\n\t\t\t\t\t\tusers[i].style.display = \"none\";\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t</script></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\r\n\t\t\tfunction filterUsers() {\r\n\t\t\t\tconst searchInput = document.getElementById('searchBox').value.toLowerCase();\r\n\t\t\t\tconst userList = document.getElementById('user-list');\r\n\t\t\t\tconst users = userList.getElementsByTagName('li');\r\n\r\n\t\t\t\tfor (let i = 0; i < users.length; i++) {\r\n\t\t\t\t\tconst userName = users[i].textContent || users[i].innerText;\r\n\t\t\t\t\tif (userName.toLowerCase().indexOf(searchInput) > -1) {\r\n\t\t\t\t\t\tusers[i].style.display = \"\";\r\n\t\t\t\t\t} else {\r\n\t\t\t\t\t\tusers[i].style.display = \"none\";\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t</script></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

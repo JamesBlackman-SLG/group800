@@ -80,7 +80,7 @@ func Menu(currentPath string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Users</a> <a href=\"/\" class=\"ml-auto h-8\"><img src=\"/logo\" alt=\"Logo\" class=\"ml-auto h-8\"></a></nav>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Users</a> <a href=\"/\" class=\"ml-auto h-8\"><img src=\"/static/logo.png\" alt=\"Logo\" class=\"ml-auto h-8\"></a></nav>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

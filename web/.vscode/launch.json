@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Go Program",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd",
+            "preLaunchTask": "generate-templ",
+            "env": {
+                "GROUP_800_TURSO_TOKEN": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MzA5MzI4NzAsImlkIjoiNzM3MmIwOTktYTA1Zi00Njc5LTgzNmItYWNjOGUzOTIxOTAwIn0.MGq_WxkfVco49nnyqfWGxZ0WNH-VDj9F6x1Qr6W8iznwRgkRiuQt7wJ0gV978sAa4l6M4n7f4fWq38jXotSqCg",
+                "GROUP_800_TURSO_URL": "libsql://group800-jamesblackman-slg.turso.io",
+            },
+            "args": [],
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Start Server and Open Browser",
+            "configurations": ["Launch Go Program"],
+            "preLaunchTask": "open-browser"
+        }
+    ]
+}

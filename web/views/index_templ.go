@@ -124,7 +124,7 @@ func Index(locations []*Location, dt time.Time) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><button onclick=\"navigateDate(1)\" class=\"text-xl px-2\">&#9654;</button> <button onclick=\"reloadPage()\" class=\"text-xl px-2\">&#x21bb;</button><!-- Refresh icon --></div><script>\n\t\t\t\t\t\tfunction navigateDate(offset) {\n              const currentDate = new Date(document.getElementById(\"date\").value);\n\t\t\t\t\t\t\tcurrentDate.setDate(currentDate.getDate() + offset);\n\t\t\t\t\t\t\tconst newDate = currentDate.toISOString().split('T')[0];\n\t\t\t\t\t\t\t// const url = new URL(window.location.href);\n\t\t\t\t\t\t\t// url.searchParams.set('date', newDate);\n\t\t\t\t\t\t\twindow.location.href = \"/\" + newDate;\n\t\t\t\t\t\t}\n\t\t\t\t\tdocument.addEventListener('keydown', function(event) {\n\t\t\t\t\t\tif (event.key === 'ArrowLeft' || event.key === 'h') {\n\t\t\t\t\t\t\tnavigateDate(-1);\n\t\t\t\t\t\t} else if (event.key === 'ArrowRight' || event.key === 'l') {\n\t\t\t\t\t\t\tnavigateDate(1);\n\t\t\t\t\t} else if (event.key === 'j') {\n\t\t\t\t\t\twindow.scrollBy(0, 8);\n\t\t\t\t\t} else if (event.key === 'k') {\n\t\t\t\t\t\twindow.scrollBy(0, -8);\n\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\t\t\t</script><section class=\"mt-6 px-2 py-2 w-full max-w-4xl\"><ul id=\"location-list\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><button onclick=\"navigateDate(1)\" class=\"text-xl px-2\">&#9654;</button> <button onclick=\"reloadPage()\" class=\"text-xl px-2\">&#x21bb;</button><!-- Refresh icon --></div><script>\r\n\t\t\t\t\t\tfunction navigateDate(offset) {\r\n              const currentDate = new Date(document.getElementById(\"date\").value);\r\n\t\t\t\t\t\t\tcurrentDate.setDate(currentDate.getDate() + offset);\r\n\t\t\t\t\t\t\tconst newDate = currentDate.toISOString().split('T')[0];\r\n\t\t\t\t\t\t\t// const url = new URL(window.location.href);\r\n\t\t\t\t\t\t\t// url.searchParams.set('date', newDate);\r\n\t\t\t\t\t\t\twindow.location.href = \"/\" + newDate;\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\tdocument.addEventListener('keydown', function(event) {\r\n\t\t\t\t\t\tif (event.key === 'ArrowLeft' || event.key === 'h') {\r\n\t\t\t\t\t\t\tnavigateDate(-1);\r\n\t\t\t\t\t\t} else if (event.key === 'ArrowRight' || event.key === 'l') {\r\n\t\t\t\t\t\t\tnavigateDate(1);\r\n\t\t\t\t\t} else if (event.key === 'j') {\r\n\t\t\t\t\t\twindow.scrollBy(0, 8);\r\n\t\t\t\t\t} else if (event.key === 'k') {\r\n\t\t\t\t\t\twindow.scrollBy(0, -8);\r\n\t\t\t\t\t}\r\n\t\t\t\t\t\t\t\t\t\t});\r\n\t\t\t\t\t\t\t\t\t\t</script><section class=\"mt-6 px-2 py-2 w-full max-w-4xl\"><ul id=\"location-list\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -309,7 +309,7 @@ func Index(locations []*Location, dt time.Time) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</html><script>\n\t\tfunction reloadPage() {\n      window.location.reload();\n\t\t}\n\t</script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</html><script>\r\n\t\tfunction reloadPage() {\r\n      window.location.reload();\r\n\t\t}\r\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

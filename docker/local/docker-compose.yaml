@@ -1,0 +1,23 @@
+services:
+  group800consumer:
+    build:
+      context: ../../
+      dockerfile: ./docker/Dockerfile.consumer
+    ports:
+      - "8443:8443"
+    user: root
+    restart: always
+    image: slgltd/group800consumer:dev
+    # Optional command for normal run
+    command: []
+  group800web:
+    build:
+      context: ../../
+      dockerfile: ./docker/Dockerfile.web
+    ports:
+      - "8080:8080"
+    user: root
+    restart: always
+    image: slgltd/group800web:dev
+    # Optional command for normal run
+    command: []

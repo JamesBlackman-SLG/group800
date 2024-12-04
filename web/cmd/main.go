@@ -37,7 +37,7 @@ func main() {
 	// routes
 	app.Routes()
 
-	err = router.Run(":8080")
+	err = router.Run("127.0.0.1:8080")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to run server %s", err)
 		return

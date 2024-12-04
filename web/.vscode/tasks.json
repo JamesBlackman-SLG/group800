@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build:css",
+            "type": "shell",
+            "command": "npm run build:css",
+            "problemMatcher": []
+        },
+        {
+            "label": "generate-templ",
+            "type": "shell",
+            "command": "templ generate",
+            "problemMatcher": [],
+            "dependsOn": "build:css"
+        },
+        {
+            "label": "open-browser",
+            "type": "shell",
+            "command": "start",
+            "args": ["http://localhost:8080"],
+            "problemMatcher": []
+        }
+    ]
+}
