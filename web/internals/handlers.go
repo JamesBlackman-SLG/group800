@@ -46,18 +46,36 @@ func (app *Config) userFormHandler() gin.HandlerFunc {
 
 func (app *Config) getUserDetails(db *sql.DB, userName string) (*views.User, error) {
 	query := `
-	SELECT user_full_name, IFNULL(trade, '?') AS trade
+	SELECT first_name, last_name, IFNULL(trade, '?') AS trade
 	FROM workers
-	WHERE user_full_name = ?;
+	WHERE first_name + ' ' + last_name = ?;
 	`
 	row := db.QueryRowContext(context.Background(), query, userName)
 
 	var user views.User
-	err := row.Scan(&user.FullName, &user.Trade)
-	if err != nil {
+	err := row.Scan(&user.FirstName, &user.LastName, &user.Trade)
+	if err == sql.ErrNoRows {
+		log.Println("Worker not found - creating worker record")
+		// If no rows are found, insert a new record with NULL for trade
+		insertQuery := `
+		INSERT INTO workers (first_name, last_name, trade)
+		VALUES (?, ?, NULL);
+		`
+		_, insertErr := db.ExecContext(context.Background(), insertQuery, userName, "")
+		if insertErr != nil {
+			return nil, fmt.Errorf("failed to insert new user: %w", insertErr)
+		}
+
+		// Return the newly inserted user
+		user.FullName = userName
+		user.FirstName = userName
+		user.LastName = ""
+		user.Trade = ""
+		return &user, nil
+	} else if err != nil {
 		return nil, fmt.Errorf("failed to fetch user details: %w", err)
 	}
-
+	log.Println(user)
 	return &user, nil
 }
 

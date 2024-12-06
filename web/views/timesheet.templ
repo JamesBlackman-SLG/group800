@@ -1,9 +1,16 @@
 package views
 
 import (
+	"fmt"
 	"group800_web/views/components"
 	"time"
 )
+
+func GetEditUserLink(userName string) string {
+	// Calculate the start of the week (Monday)
+	href := fmt.Sprintf("/edituser/%s", userName)
+	return href
+}
 
 templ TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*User) {
 	<!DOCTYPE html>
@@ -47,6 +54,7 @@ templ TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*Use
 					</h3>
 					if len(week) > 0 && len(week[0].Data) > 0 {
 						<h3 class="mt-6 text-base lg:text-lg font-large text-center">{ week[0].Data[0].Trade }</h3>
+						<a href={ templ.URL(GetEditUserLink(week[0].Data[0].Name)) }>Edit Details</a>
 					}
 					<section class="mt-6 px-2 py-2 w-full max-w-4xl">
 						<ul id="timesheet-list">
