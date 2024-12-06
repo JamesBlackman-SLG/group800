@@ -24,6 +24,42 @@ func renderTemplate(ctx *gin.Context, status int, template templ.Component) erro
 	return template.Render(ctx.Request.Context(), ctx.Writer)
 }
 
+func (app *Config) userFormHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		userName := ctx.Param("userName")
+
+		// Fetch user details from the database
+		user, err := app.getUserDetails(app.DB, userName)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+
+		// Render the user form template
+		err = renderTemplate(ctx, http.StatusOK, views.UserForm(user))
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+	}
+}
+
+func (app *Config) getUserDetails(db *sql.DB, userName string) (*views.User, error) {
+	query := `
+	SELECT user_full_name, IFNULL(trade, '?') AS trade
+	FROM workers
+	WHERE user_full_name = ?;
+	`
+	row := db.QueryRowContext(context.Background(), query, userName)
+
+	var user views.User
+	err := row.Scan(&user.FullName, &user.Trade)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch user details: %w", err)
+	}
+
+	return &user, nil
+
 func (app *Config) signInHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Dummy authentication logic

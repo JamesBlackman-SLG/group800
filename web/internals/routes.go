@@ -54,4 +54,5 @@ func (app *Config) Routes() {
 
 	app.Router.GET("/timesheet/:d/:u", app.timeSheetPageHandler())
 	app.Router.GET("/users", app.usersPageHandler())
+	app.Router.GET("/userform/:userName", app.userFormHandler())
 }
