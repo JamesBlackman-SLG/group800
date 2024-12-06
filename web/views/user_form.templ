@@ -1,14 +1,32 @@
-{{ define "UserForm" }}
-<html>
-<body>
-    <h1>Edit User</h1>
-    <form method='POST' action='/updateuser'>
-        <label for='fullName'>Full Name:</label>
-        <input type='text' id='fullName' name='fullName' value='{{ .FullName }}' readonly><br>
-        <label for='trade'>Trade:</label>
-        <input type='text' id='trade' name='trade' value='{{ .Trade }}'><br>
-        <input type='submit' value='Update'>
-    </form>
-</body>
-</html>
-{{ end }}
+package views
+
+import "group800_web/views/components"
+
+templ UserForm(user *User) {
+	<!DOCTYPE html>
+	<html lang="en">
+		@components.Header()
+		<body>
+			<main class="min-h-screen w-full">
+				@components.Menu("/edituser")
+				<div class="mt-6 w-full flex justify-center items-center flex-col">
+					<section class="px-2 py-2 w-full max-w-4xl">
+						<h1>Edit User</h1>
+						<form method="POST" action="/updateuser">
+							<label for="firstName">First Name:</label>
+							<input type="text" id="firstName" name="firstName" value={ user.FirstName }/>
+							<label for="lastName">Last Name:</label>
+							<input type="text" id="lastName" name="lastName" value={ user.LastName }/>
+							<br/>
+							<label for="trade">Trade:</label>
+							<input type="text" id="trade" name="trade" value={ user.Trade }/>
+							<br/>
+							<input type="submit" value="Update"/>
+						</form>
+					</section>
+				</div>
+			</main>
+		</body>
+		@components.Footer()
+	</html>
+}
