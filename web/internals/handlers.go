@@ -24,6 +24,36 @@ func renderTemplate(ctx *gin.Context, status int, template templ.Component) erro
 	return template.Render(ctx.Request.Context(), ctx.Writer)
 }
 
+func (app *Config) editUserHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		userName := ctx.Param("userName")
+		newTrade := ctx.PostForm("trade")
+
+		// Update the user's trade in the database
+		err := app.updateUserTrade(app.DB, userName, newTrade)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+
+		// Redirect back to the user form page
+		ctx.Redirect(http.StatusFound, "/edituser/"+userName)
+	}
+}
+
+func (app *Config) updateUserTrade(db *sql.DB, userName, trade string) error {
+	query := `
+	UPDATE workers
+	SET trade = ?
+	WHERE CONCAT(first_name, ' ', last_name) = ?;
+	`
+	_, err := db.ExecContext(context.Background(), query, trade, userName)
+	if err != nil {
+		return fmt.Errorf("failed to update user trade: %w", err)
+	}
+	return nil
+}
+
 func (app *Config) userFormHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		userName := ctx.Param("userName")
