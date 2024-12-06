@@ -9,8 +9,10 @@
             "program": "${workspaceFolder}/cmd",
             "preLaunchTask": "generate-templ",
             "env": {
-                "GROUP_800_TURSO_TOKEN": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MzA5MzI4NzAsImlkIjoiNzM3MmIwOTktYTA1Zi00Njc5LTgzNmItYWNjOGUzOTIxOTAwIn0.MGq_WxkfVco49nnyqfWGxZ0WNH-VDj9F6x1Qr6W8iznwRgkRiuQt7wJ0gV978sAa4l6M4n7f4fWq38jXotSqCg",
-                "GROUP_800_TURSO_URL": "libsql://group800-jamesblackman-slg.turso.io",
+                "GROUP_800_TURSO_TOKEN": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MzM0MDQxNTgsImlkIjoiMTkwYWMwOTgtNTIyOS00YjcxLTg2MTYtMTk1NDg3M2JiY2Q4In0.AozHtV8owzAtM8e_dUoelWgjH1OMivHpDb5rEoHGCfBM89OtA-jUjElNNXbXhINJLRNpWwahXjfGfkvi12FyBg",
+                "GROUP_800_TURSO_URL": "libsql://group800dev-jamesblackman-slg.turso.io",
+"TURSO_800_GROUP_URL": "libsql://800group-slg.turso.io",
+"TURSO_SLG_TOKEN": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJnaWQiOiJjMjhmMGE0Ni0yMDliLTQwZWQtYmYzOS1mZTVhNmY1ZjAyM2EiLCJpYXQiOjE3MzM0ODI5NDN9.biOWgdXR2MWp0SDw_QSfsMNalHl_8YzdsBiYuaXeVz9LCHw2wE5cjQ4QXM7t-GfWEU3psJ-Y0_FD3UBVn3twBQ",
             },
             "args": [],
         }

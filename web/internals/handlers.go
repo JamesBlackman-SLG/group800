@@ -132,10 +132,10 @@ func (app *Config) indexPageHandler() gin.HandlerFunc {
 			return
 		}
 
-		if len(locations) == 0 {
-			ctx.JSON(http.StatusBadRequest, "No locations found")
-			return
-		}
+		// if len(locations) == 0 {
+		// 	ctx.JSON(http.StatusBadRequest, "No locations found")
+		// 	return
+		// }
 
 		for _, t := range locations {
 			data, err := dailyCheckInAnalysis(app.DB, t, d)
@@ -152,10 +152,10 @@ func (app *Config) indexPageHandler() gin.HandlerFunc {
 			ll = append(ll, l)
 		}
 
-		if len(ll) == 0 {
-			ctx.JSON(http.StatusBadRequest, "No locations found")
-			return
-		}
+		// if len(ll) == 0 {
+		// 	ctx.JSON(http.StatusBadRequest, "No locations found")
+		// 	return
+		// }
 
 		err = renderTemplate(ctx, http.StatusOK, views.Index(ll, d))
 		if err != nil {
@@ -269,7 +269,6 @@ LEFT JOIN
 ON 
     ci.user_id = co.user_id 
     AND ci.location_name = co.location_name 
-    AND ci.clocking_type = 'In' 
     AND co.clocking_type = 'Out' 
     AND date(datetime(ci.time_logged)) = date(datetime(co.time_logged)) 
     AND datetime(co.time_logged) > datetime(ci.time_logged)
@@ -310,17 +309,16 @@ ORDER BY
 		return nil, fmt.Errorf("row iteration error: %w", err)
 	}
 
-	// if len(data) == 0 {
-	// 	return "No data for today", nil
-	// }
+	if len(data) == 0 {
+		return nil, err
+	}
 
-	// Create a new tab writer
 	// var buf bytes.Buffer
 	// writer := tabwriter.NewWriter(&buf, 0, 0, 1, ' ', tabwriter.Debug)
-	//
+
 	// // Write the header
 	// fmt.Fprintln(writer, "Name\tCheck In\tCheck Out\tDuration")
-	//
+
 	// // Write the data
 	// for _, row := range data {
 	// 	name := row.Name
@@ -331,10 +329,10 @@ ORDER BY
 	// 	}
 	// 	fmt.Fprintf(writer, "%s\t%s\t%s\t%s\n", name, row.CheckIn, row.CheckOut, row.Duration)
 	// }
-	//
+
 	// // Flush the writer
 	// writer.Flush()
-	//
+
 	// // Print the tabulated data
 	// fmt.Println(buf.String())
 

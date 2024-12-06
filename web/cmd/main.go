@@ -14,20 +14,39 @@ import (
 func main() {
 	var db *sql.DB
 
-	tursoUrl := os.Getenv("GROUP_800_TURSO_URL")
-	tursoToken := os.Getenv("GROUP_800_TURSO_TOKEN")
+	tursoUrl := os.Getenv("TURSO_800_GROUP_URL")
+	tursoToken := os.Getenv("TURSO_SLG_TOKEN")
 
 	if tursoUrl == "" {
-		log.Fatal("No turso url found in .bashrc")
+		log.Fatal("TURSO_800_GROUP_URL env var not set")
 	}
-	url := fmt.Sprintf("%s?authToken=%s", tursoUrl, tursoToken)
 
+	if tursoToken == "" {
+		log.Fatal("TURSO_SLG_TOKEN env var not set")
+	}
+
+	url := fmt.Sprintf("%s?authToken=%s", tursoUrl, tursoToken)
+	log.Println(url)
 	db, err := sql.Open("libsql", url)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to open db %s", err)
-		return
+		log.Fatal("failed to open db")
 	}
 	defer db.Close()
+
+	_, err = db.Exec(internals.CreateWebhooksTable)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = db.Exec(internals.CreateWorkersTable)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = internals.ImportWorkersFromCSV(db, "../workers.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	router := gin.Default()
 
@@ -37,9 +56,9 @@ func main() {
 	// routes
 	app.Routes()
 
+	log.Println("Group 800 Web API running on :8080")
 	err = router.Run("127.0.0.1:8080")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "failed to run server %s", err)
-		return
+		log.Fatal("failed to run server")
 	}
 }

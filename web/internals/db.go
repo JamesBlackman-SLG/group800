@@ -3,10 +3,65 @@ package internals
 import (
 	"context"
 	"database/sql"
+	"encoding/csv"
 	"fmt"
 	"group800_web/views"
+	"os"
 	"time"
 )
+
+const CreateWebhooksTable = `
+	CREATE TABLE IF NOT EXISTS webhooks (
+		id TEXT PRIMARY KEY,
+		event TEXT,
+		sequence INTEGER,
+		dispatched_at INTEGER,
+		clocking_type TEXT,
+		device_serial_number TEXT,
+		client_id TEXT,
+		user_id TEXT,
+		user_card_number TEXT,
+		user_first_name TEXT,
+		user_last_name TEXT,
+		user_full_name TEXT,
+		user_employee_number TEXT,
+		department_id TEXT,
+		department_name TEXT,
+		location_id TEXT,
+		location_name TEXT,
+		project_id TEXT,
+		project_name TEXT,
+		project_code TEXT,
+		time_zone TEXT,
+		time_logged TEXT,
+		time_logged_rounded TEXT,
+		time_inserted TEXT,
+		clocking_action_type_id INTEGER,
+		verification_mode_id INTEGER,
+		record_hash INTEGER,
+		record_ignored BOOLEAN,
+		clocking_pair_id TEXT,
+		clocking_sequence_id TEXT,
+		planning_id INTEGER,
+		absence_type_id TEXT,
+		absence_type_name TEXT,
+		color TEXT,
+		comment TEXT,
+		pay_period_id TEXT,
+		pay_period_name TEXT
+	);
+	`
+
+const CreateWorkersTable = `
+	CREATE TABLE IF NOT EXISTS workers(
+		id TEXT PRIMARY KEY,
+		first_name TEXT,
+		last_name TEXT,
+		trade TEXT,
+		employment_type TEXT,
+		invoice_from TEXT
+	);
+	`
 
 // listUsers retrieves a list of distinct user full names ordered alphabetically
 func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
@@ -153,4 +208,46 @@ ORDER BY
 
 	// Convert JSON data to a string for easy submission
 	return data, nil
+}
+
+func ImportWorkersFromCSV(db *sql.DB, filePath string) error {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return fmt.Errorf("failed to open file: %w", err)
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil {
+		return fmt.Errorf("failed to read CSV file: %w", err)
+	}
+
+	tx, err := db.Begin()
+	if err != nil {
+		return fmt.Errorf("failed to begin transaction: %w", err)
+	}
+
+	stmt, err := tx.Prepare("INSERT INTO workers (id, first_name, last_name, trade, employment_type, invoice_from) VALUES (?, ?, ?, ?, ?, ?)")
+	if err != nil {
+		return fmt.Errorf("failed to prepare statement: %w", err)
+	}
+	defer stmt.Close()
+
+	for _, record := range records {
+		fmt.Printf("Inserting record: %s", record[0])
+		fmt.Println()
+		_, err = stmt.Exec(record[0], record[1], record[2], record[3], record[4], record[5])
+		if err != nil {
+			tx.Rollback()
+			return fmt.Errorf("failed to execute statement: %w", err)
+		}
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
+
+	return nil
 }
