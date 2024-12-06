@@ -101,6 +101,7 @@ templ Index(locations []*Location, dt time.Time) {
 													<thead>
 														<tr>
 															<th class="w-1/4">Name</th>
+															<th class="w-1/4">Trade</th>
 															<th class="w-1/4">Check In</th>
 															<th class="w-1/4">Check Out</th>
 															<th class="w-1/4">Duration</th>
@@ -112,6 +113,7 @@ templ Index(locations []*Location, dt time.Time) {
 																<td class="font-medium text-sm w-1/4">
 																	<a href={ templ.URL(GetTimeSheetLink(dt, c.Name)) }>{ c.Name }</a>
 																</td>
+																<td class="font-medium text-sm w-1/4">{ c.Trade }</td>
 																<td class={ getCheckInClass(c.CheckIn) }>{ c.CheckIn } { getIsLate(c.CheckIn) }</td>
 																<td class={ getCheckOutClass(c.CheckOut) }>{ c.CheckOut } { getIsEarly(c.CheckOut) }</td>
 																<td class="font-medium text-sm w-1/4">{ c.Duration }</td>

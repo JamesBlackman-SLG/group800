@@ -54,7 +54,7 @@ const CreateWebhooksTable = `
 
 const CreateWorkersTable = `
 	CREATE TABLE IF NOT EXISTS workers(
-		id TEXT PRIMARY KEY,
+		id INT PRIMARY KEY,
 		first_name TEXT,
 		last_name TEXT,
 		trade TEXT,
@@ -66,8 +66,9 @@ const CreateWorkersTable = `
 // listUsers retrieves a list of distinct user full names ordered alphabetically
 func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
 	query := `
-  SELECT DISTINCT user_full_name 
-  FROM webhooks 
+  SELECT DISTINCT ww.user_full_name, IFNULL(w.trade, "?") AS trade
+  FROM webhooks ww
+  LEFT JOIN workers w ON ww.user_first_name = w.first_name AND ww.user_last_name = w.last_name
   ORDER BY user_full_name;
 `
 
@@ -82,7 +83,7 @@ func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
 	// Iterate over the rows
 	for rows.Next() {
 		var user views.User
-		err := rows.Scan(&user.FullName)
+		err := rows.Scan(&user.FullName, &user.Trade)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
@@ -146,7 +147,8 @@ SELECT
             strftime('%H:%M', (julianday(co.time_logged) - julianday(ci.time_logged)) * 86400, 'unixepoch')
         ELSE 
           ''
-    END AS duration
+    END AS duration,
+    IFNULL(w.trade, '?') AS trade
 FROM
     webhooks ci
 LEFT JOIN 
@@ -158,6 +160,7 @@ ON
     AND co.clocking_type = 'Out' 
     AND date(datetime(ci.time_logged)) = date(datetime(co.time_logged)) 
     AND datetime(co.time_logged) > datetime(ci.time_logged)
+LEFT JOIN workers w ON ci.user_first_name = w.first_name AND ci.user_last_name = w.last_name
 WHERE 
     ci.clocking_type = 'In'
     AND date(datetime(ci.time_logged)) = ?
@@ -181,7 +184,7 @@ ORDER BY
 	// Iterate over the rows
 	for rows.Next() {
 		var row views.CheckInData
-		err := rows.Scan(&row.Location, &row.CheckIn, &row.CheckOut, &row.Duration)
+		err := rows.Scan(&row.Location, &row.CheckIn, &row.CheckOut, &row.Duration, &row.Trade)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}

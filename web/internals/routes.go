@@ -36,7 +36,7 @@ func (app *Config) Routes() {
 	app.Router.Use(gin.Logger())
 
 	// Serve static files from the /views/static directory
-	app.Router.Static("/static", "../views/static")
+	app.Router.Static("/static", "./views/static")
 	app.Router.POST("/webhook", app.webHookHandler())
 
 	// login

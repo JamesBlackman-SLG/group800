@@ -4,6 +4,7 @@ import "time"
 
 type User struct {
 	FullName string
+	Trade    string `json:"trade"`
 }
 
 type WeeklyTimeSheet struct {
@@ -25,4 +26,5 @@ type CheckInData struct {
 	CheckIn  string `json:"check_in"`
 	CheckOut string `json:"check_out"`
 	Duration string `json:"duration"`
+	Trade    string `json:"trade"`
 }

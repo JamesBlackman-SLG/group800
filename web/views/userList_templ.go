@@ -77,6 +77,19 @@ func UserList(Users []*User) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" - ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(u.Trade)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 21, Col: 186}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -90,7 +103,7 @@ func UserList(Users []*User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\r\n\t\t\tfunction filterUsers() {\r\n\t\t\t\tconst searchInput = document.getElementById('searchBox').value.toLowerCase();\r\n\t\t\t\tconst userList = document.getElementById('user-list');\r\n\t\t\t\tconst users = userList.getElementsByTagName('li');\r\n\r\n\t\t\t\tfor (let i = 0; i < users.length; i++) {\r\n\t\t\t\t\tconst userName = users[i].textContent || users[i].innerText;\r\n\t\t\t\t\tif (userName.toLowerCase().indexOf(searchInput) > -1) {\r\n\t\t\t\t\t\tusers[i].style.display = \"\";\r\n\t\t\t\t\t} else {\r\n\t\t\t\t\t\tusers[i].style.display = \"none\";\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t</script></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n\t\t\tfunction filterUsers() {\n\t\t\t\tconst searchInput = document.getElementById('searchBox').value.toLowerCase();\n\t\t\t\tconst userList = document.getElementById('user-list');\n\t\t\t\tconst users = userList.getElementsByTagName('li');\n\n\t\t\t\tfor (let i = 0; i < users.length; i++) {\n\t\t\t\t\tconst userName = users[i].textContent || users[i].innerText;\n\t\t\t\t\tif (userName.toLowerCase().indexOf(searchInput) > -1) {\n\t\t\t\t\t\tusers[i].style.display = \"\";\n\t\t\t\t\t} else {\n\t\t\t\t\t\tusers[i].style.display = \"none\";\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t</script></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

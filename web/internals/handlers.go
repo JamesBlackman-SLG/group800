@@ -23,6 +23,7 @@ func renderTemplate(ctx *gin.Context, status int, template templ.Component) erro
 	ctx.Status(status)
 	return template.Render(ctx.Request.Context(), ctx.Writer)
 }
+
 func (app *Config) signInHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Dummy authentication logic
@@ -261,17 +262,19 @@ SELECT
             strftime('%H:%M', (julianday(co.time_logged) - julianday(ci.time_logged)) * 86400, 'unixepoch')
         ELSE 
           ''
-    END AS duration
+    END AS duration,
+    IFNULL(w.trade, '?') AS trade
 FROM
     webhooks ci
 LEFT JOIN 
-    webhooks co 
+    webhooks co
 ON 
     ci.user_id = co.user_id 
     AND ci.location_name = co.location_name 
     AND co.clocking_type = 'Out' 
     AND date(datetime(ci.time_logged)) = date(datetime(co.time_logged)) 
     AND datetime(co.time_logged) > datetime(ci.time_logged)
+LEFT JOIN workers w ON ci.user_first_name = w.first_name AND ci.user_last_name = w.last_name
 WHERE 
     ci.clocking_type = 'In'
     AND date(datetime(ci.time_logged)) = ?
@@ -297,7 +300,7 @@ ORDER BY
 	// Iterate over the rows
 	for rows.Next() {
 		var row views.CheckInData
-		err := rows.Scan(&row.Name, &row.CheckIn, &row.CheckOut, &row.Duration)
+		err := rows.Scan(&row.Name, &row.CheckIn, &row.CheckOut, &row.Duration, &row.Trade)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}

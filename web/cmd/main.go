@@ -13,16 +13,26 @@ import (
 
 func main() {
 	var db *sql.DB
+	// tursoUrl := os.Getenv("TURSO_800_GROUP_URL")
+	// tursoToken := os.Getenv("TURSO_SLG_TOKEN")
+	//
+	// if tursoUrl == "" {
+	// 	log.Fatal("TURSO_800_GROUP_URL env var not set")
+	// }
+	//
+	// if tursoToken == "" {
+	// 	log.Fatal("TURSO_SLG_TOKEN env var not set")
+	// }
 
-	tursoUrl := os.Getenv("TURSO_800_GROUP_URL")
-	tursoToken := os.Getenv("TURSO_SLG_TOKEN")
+	tursoUrl := os.Getenv("GROUP_800_TURSO_URL")
+	tursoToken := os.Getenv("GROUP_800_TURSO_TOKEN")
 
 	if tursoUrl == "" {
-		log.Fatal("TURSO_800_GROUP_URL env var not set")
+		log.Fatal("GROUP_800_TURSO_URL env var not set")
 	}
 
 	if tursoToken == "" {
-		log.Fatal("TURSO_SLG_TOKEN env var not set")
+		log.Fatal("GROUP_800_TURSO_TOKEN env var not set")
 	}
 
 	url := fmt.Sprintf("%s?authToken=%s", tursoUrl, tursoToken)
@@ -43,10 +53,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = internals.ImportWorkersFromCSV(db, "../workers.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// err = internals.ImportWorkersFromCSV(db, "./workers.csv")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	router := gin.Default()
 
