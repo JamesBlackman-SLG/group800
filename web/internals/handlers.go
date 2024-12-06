@@ -59,6 +59,7 @@ func (app *Config) getUserDetails(db *sql.DB, userName string) (*views.User, err
 	}
 
 	return &user, nil
+}
 
 func (app *Config) signInHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
