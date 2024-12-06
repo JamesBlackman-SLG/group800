@@ -48,7 +48,7 @@ func (app *Config) getUserDetails(db *sql.DB, userName string) (*views.User, err
 	query := `
 	SELECT first_name, last_name, IFNULL(trade, '?') AS trade
 	FROM workers
-	WHERE first_name + ' ' + last_name = ?;
+	WHERE CONCAT(first_name, ' ', last_name) = ?;
 	`
 	row := db.QueryRowContext(context.Background(), query, userName)
 
