@@ -1,0 +1,14 @@
+{{ define "UserForm" }}
+<html>
+<body>
+    <h1>Edit User</h1>
+    <form method='POST' action='/updateuser'>
+        <label for='fullName'>Full Name:</label>
+        <input type='text' id='fullName' name='fullName' value='{{ .FullName }}' readonly><br>
+        <label for='trade'>Trade:</label>
+        <input type='text' id='trade' name='trade' value='{{ .Trade }}'><br>
+        <input type='submit' value='Update'>
+    </form>
+</body>
+</html>
+{{ end }}
