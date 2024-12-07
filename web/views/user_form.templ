@@ -7,8 +7,8 @@ templ UserForm(user *User) {
 	<html lang="en">
 		@components.Header()
 		<body>
+			@components.Menu("/edituser")
 			<main class="flex justify-center items-center min-h-screen">
-				@components.Menu("/edituser")
 				<div class="max-w-md w-full px-4">
 					<section class="">
 						<h1 class="">{ user.FirstName } { user.LastName }</h1>
