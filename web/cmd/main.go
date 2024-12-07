@@ -53,15 +53,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// err = internals.ImportWorkersFromCSV(db, "./workers.csv")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
 	router := gin.Default()
 
 	// initialize config
 	app := internals.Config{Router: router, DB: db}
+
+	err = app.ImportWorkersFromCSV(db, "./workers.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// routes
 	app.Routes()

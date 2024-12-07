@@ -3,6 +3,7 @@ package views
 import "time"
 
 type User struct {
+	UserID    string
 	FirstName string
 	LastName  string
 	FullName  string

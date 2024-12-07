@@ -60,15 +60,15 @@ const CreateWorkersTable = `
 		last_name TEXT,
 		trade TEXT,
 		employment_type TEXT,
-		invoice_from TEXT,
-		FOREIGN KEY (time_moto_user_id) REFERENCES webhooks(user_id)
+		invoice_from TEXT
+	  -- FOREIGN KEY (time_moto_user_id) REFERENCES webhooks(user_id)
 	);
 	`
 
 // listUsers retrieves a list of distinct user full names ordered alphabetically
 func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
 	query := `
-  SELECT DISTINCT ww.user_full_name, IFNULL(w.trade, "?") AS trade
+  SELECT DISTINCT ww.user_id, ww.user_full_name, ww.user_first_name, ww.user_last_name, IFNULL(w.trade, "?") AS trade
   FROM webhooks ww
   LEFT JOIN workers w ON ww.user_first_name = w.first_name AND ww.user_last_name = w.last_name
   ORDER BY user_full_name;
@@ -85,7 +85,7 @@ func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
 	// Iterate over the rows
 	for rows.Next() {
 		var user views.User
-		err := rows.Scan(&user.FullName, &user.Trade)
+		err := rows.Scan(&user.UserID, &user.FullName, &user.FirstName, &user.LastName, &user.Trade)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
@@ -215,7 +215,7 @@ ORDER BY
 	return data, nil
 }
 
-func ImportWorkersFromCSV(db *sql.DB, filePath string) error {
+func (app *Config) ImportWorkersFromCSV(db *sql.DB, filePath string) error {
 	file, err := os.Open(filePath)
 	if err != nil {
 		return fmt.Errorf("failed to open file: %w", err)
@@ -233,20 +233,40 @@ func ImportWorkersFromCSV(db *sql.DB, filePath string) error {
 		return fmt.Errorf("failed to begin transaction: %w", err)
 	}
 
-	stmt, err := tx.Prepare("INSERT INTO workers (id, first_name, last_name, trade, employment_type, invoice_from) VALUES (?, ?, ?, ?, ?, ?)")
+	stmt, err := tx.Prepare("INSERT INTO workers (time_moto_user_id, first_name, last_name, trade, employment_type, invoice_from) VALUES (?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		return fmt.Errorf("failed to prepare statement: %w", err)
 	}
 	defer stmt.Close()
 
+	timeMotoUsers, err := app.listUsers(db)
+	if err != nil {
+		return err
+	}
+
 	for _, record := range records {
-		fmt.Printf("Inserting record: %s", record[0])
-		fmt.Println()
-		_, err = stmt.Exec(record[0], record[1], record[2], record[3], record[4], record[5])
-		if err != nil {
-			tx.Rollback()
-			return fmt.Errorf("failed to execute statement: %w", err)
+		// find the user in timeMotoUsers
+		for _, user := range timeMotoUsers {
+			if user.FirstName == record[1] && user.LastName == record[2] {
+				fmt.Println("Found user: ", user.FullName)
+				fmt.Println("Time Moto User ID: ", user.UserID)
+				fmt.Printf("Inserting record: %s", record[0])
+				fmt.Println()
+				_, err = stmt.Exec(user.UserID, record[1], record[2], user.Trade, record[3], record[4])
+				if err != nil {
+					err = tx.Rollback()
+					return fmt.Errorf("failed to execute statement: %w", err)
+				}
+			}
 		}
+
+		// fmt.Printf("Inserting record: %s", record[0])
+		// fmt.Println()
+		// _, err = stmt.Exec(record[0], record[1], record[2], record[3], record[4], record[5])
+		// if err != nil {
+		// 	tx.Rollback()
+		// 	return fmt.Errorf("failed to execute statement: %w", err)
+		// }
 	}
 
 	err = tx.Commit()

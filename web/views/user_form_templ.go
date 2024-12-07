@@ -39,7 +39,7 @@ func UserForm(user *User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body><main class=\"min-h-screen w-full bg-gray-100\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body><main class=\"min-h-screen w-full bg-gray-100 justify-center items-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -47,7 +47,7 @@ func UserForm(user *User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-10 w-full flex justify-center items-center flex-col\"><section class=\"px-4 py-6 w-full max-w-2xl bg-white shadow-md rounded-lg\"><h1 class=\"text-2xl font-bold mb-6 text-center\">Edit User</h1><form method=\"POST\" action=\"/updateuser\" class=\"space-y-4\"><div><label for=\"firstName\" class=\"block text-sm font-medium text-gray-700\">First Name:</label> <input type=\"text\" id=\"firstName\" name=\"firstName\" value=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-10 w-full max-w-md px-4\"><section class=\"px-4 py-6 w-full bg-white shadow-md rounded-lg\"><h1 class=\"text-2xl font-bold mb-6 text-center\">Edit User</h1><form method=\"POST\" action=\"/edituser\" class=\"space-y-4\"><div><label for=\"firstName\" class=\"block text-sm font-medium text-gray-700\">First Name:</label> <input type=\"text\" id=\"firstName\" name=\"firstName\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -86,7 +86,7 @@ func UserForm(user *User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500\"></div><div class=\"flex justify-end\"><input type=\"submit\" value=\"Update\" class=\"inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500\"></div></form></section></div></main></body>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500\"></div><div class=\"flex justify-end\"><input type=\"submit\" value=\"Update\" class=\"inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-blue-600\"></div></form></section></div></main></body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
