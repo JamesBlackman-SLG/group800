@@ -127,7 +127,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, user string, users []*User
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h3><a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h3><a class=\"mt-6 text-blue-500 hover:text-blue-700 font-semibold underline\" href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
