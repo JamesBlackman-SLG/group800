@@ -55,6 +55,7 @@ const CreateWebhooksTable = `
 const CreateWorkersTable = `
 	CREATE TABLE IF NOT EXISTS workers(
 		id INT PRIMARY KEY,
+    time_moto_user_id TEXT UNIQUE,
 		first_name TEXT,
 		last_name TEXT,
 		trade TEXT,
