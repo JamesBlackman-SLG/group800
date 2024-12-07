@@ -7,48 +7,29 @@ templ UserForm(user *User) {
 	<html lang="en">
 		@components.Header()
 		<body>
-			<main class="min-h-screen bg-gray-100 items-center justify-center">
+			<main class="">
 				@components.Menu("/edituser")
-				<div class="mt-10 w-full max-w-lg px-6">
-					<section class="bg-white shadow-lg rounded-xl p-8">
-						<h1 class="text-3xl font-semibold text-gray-800 mb-8 text-center">Edit User</h1>
+				<div class="">
+					<section class="">
+						<h1 class="">{ user.FirstName } { user.LastName }</h1>
 						<form method="POST" action="/edituser" class="space-y-6">
 							<input type="hidden" name="userID" value={ user.UserID }/>
 							<div>
-								<label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-								<input
-									type="text"
-									id="firstName"
-									name="firstName"
-									value={ user.FirstName }
-									class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-								/>
-							</div>
-							<div>
-								<label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-								<input
-									type="text"
-									id="lastName"
-									name="lastName"
-									value={ user.LastName }
-									class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-								/>
-							</div>
-							<div>
-								<label for="trade" class="block text-sm font-medium text-gray-700">Trade</label>
+								<label for="trade" class="">Trade</label>
 								<input
 									type="text"
 									id="trade"
 									name="trade"
 									value={ user.Trade }
-									class="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+									class=""
 								/>
 							</div>
-							<div class="pt-6 flex justify-end">
+							<br/>
+							<div class="">
 								<input
 									type="submit"
 									value="Update"
-									class="inline-flex items-center justify-center py-3 px-6 text-base font-medium rounded-lg shadow-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200"
+									class=""
 								/>
 							</div>
 						</form>
