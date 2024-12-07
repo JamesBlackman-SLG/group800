@@ -359,7 +359,7 @@ ON
     AND co.clocking_type = 'Out' 
     AND date(datetime(ci.time_logged)) = date(datetime(co.time_logged)) 
     AND datetime(co.time_logged) > datetime(ci.time_logged)
-LEFT JOIN workers w ON ci.user_first_name = w.first_name AND ci.user_last_name = w.last_name
+LEFT JOIN workers w ON ci.user_id = w.time_moto_user_id
 WHERE 
     ci.clocking_type = 'In'
     AND date(datetime(ci.time_logged)) = ?

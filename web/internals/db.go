@@ -54,7 +54,7 @@ const CreateWebhooksTable = `
 
 const CreateWorkersTable = `
 	CREATE TABLE IF NOT EXISTS workers(
-		id INT PRIMARY KEY,
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_moto_user_id TEXT UNIQUE,
 		first_name TEXT,
 		last_name TEXT,
@@ -252,7 +252,7 @@ func (app *Config) ImportWorkersFromCSV(db *sql.DB, filePath string) error {
 				fmt.Println("Time Moto User ID: ", user.UserID)
 				fmt.Printf("Inserting record: %s", record[0])
 				fmt.Println()
-				_, err = stmt.Exec(user.UserID, record[1], record[2], user.Trade, record[3], record[4])
+				_, err = stmt.Exec(user.UserID, record[1], record[2], record[3], record[4], record[5])
 				if err != nil {
 					err = tx.Rollback()
 					return fmt.Errorf("failed to execute statement: %w", err)
