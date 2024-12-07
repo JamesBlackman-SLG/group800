@@ -60,7 +60,8 @@ const CreateWorkersTable = `
 		last_name TEXT,
 		trade TEXT,
 		employment_type TEXT,
-		invoice_from TEXT
+		invoice_from TEXT,
+		FOREIGN KEY (time_moto_user_id) REFERENCES webhooks(user_id)
 	);
 	`
 
