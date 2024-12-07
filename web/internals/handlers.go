@@ -59,7 +59,7 @@ func (app *Config) userFormHandler() gin.HandlerFunc {
 		userID := ctx.Param("userID")
 
 		// Fetch user details from the database
-		user, err := app.getUserDetails(app.DB, userID)
+		user, err := app.getUserDetails(userID)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
@@ -74,13 +74,13 @@ func (app *Config) userFormHandler() gin.HandlerFunc {
 	}
 }
 
-func (app *Config) getUserDetails(db *sql.DB, userID string) (*views.User, error) {
+func (app *Config) getUserDetails(userID string) (*views.User, error) {
 	query := `
 	SELECT time_moto_user_id, first_name, last_name, IFNULL(trade, '?') AS trade
 	FROM workers
 	WHERE time_moto_user_id = ?;
 	`
-	row := db.QueryRowContext(context.Background(), query, userID)
+	row := app.DB.QueryRowContext(context.Background(), query, userID)
 
 	var user views.User
 	err := row.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.Trade)
@@ -94,7 +94,7 @@ func (app *Config) getUserDetails(db *sql.DB, userID string) (*views.User, error
     WHERE user_id = ?
     LIMIT 1;
 		`
-		_, insertErr := db.ExecContext(context.Background(), insertQuery, userID, "")
+		_, insertErr := app.DB.ExecContext(context.Background(), insertQuery, userID, "")
 		if insertErr != nil {
 			return nil, fmt.Errorf("failed to insert new user: %w", insertErr)
 		}
@@ -104,7 +104,7 @@ func (app *Config) getUserDetails(db *sql.DB, userID string) (*views.User, error
 	FROM workers
 	WHERE time_moto_user_id = ?;
 	`
-		rowNew := db.QueryRowContext(context.Background(), query, userID)
+		rowNew := app.DB.QueryRowContext(context.Background(), query, userID)
 
 		err := rowNew.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.Trade)
 		if err != nil {
@@ -161,10 +161,13 @@ func (app *Config) webHookHandler() gin.HandlerFunc {
 			return
 		}
 		body := string(bodyBytes)
-		err = webhook.HandlePost(app.DB, body)
+		err, userID := webhook.HandlePost(app.DB, body)
 		if err != nil {
 			log.Println(err)
 		}
+
+		// Test the user exists and if not, will create new worker record
+		_, _ = app.getUserDetails(userID)
 	}
 }
 
@@ -306,7 +309,7 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 			return
 		}
 
-		user, err := app.getUserDetails(app.DB, userID)
+		user, err := app.getUserDetails(userID)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 		}

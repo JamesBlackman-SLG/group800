@@ -162,7 +162,7 @@ func simulateWebhook(db *sql.DB) {
 		fmt.Println("Error unmarshalling JSON:", err)
 		return
 	}
-	// log.Println("Webhook:", webhook)
+
 	handleInsert(db, webhook)
 }
 
@@ -221,7 +221,7 @@ func nullString(s *string) interface{} {
 	return *s
 }
 
-func HandlePost(db *sql.DB, body string) error {
+func HandlePost(db *sql.DB, body string) (error, string) {
 	dbMutex.Lock()
 	defer dbMutex.Unlock()
 
@@ -240,7 +240,7 @@ func HandlePost(db *sql.DB, body string) error {
 	err := json.Unmarshal([]byte(body), &webhook)
 	if err != nil {
 		fmt.Println("Error unmarshaling JSON:", err)
-		return errors.New("Invalid JSON")
+		return errors.New("Invalid JSON"), ""
 	}
 
 	log.Printf("id = %s", webhook.ID)
@@ -257,9 +257,9 @@ func HandlePost(db *sql.DB, body string) error {
 	if err != nil {
 		log.Println("Failed to insert data")
 		fmt.Println(err)
-		return errors.New("Failed to insert data")
+		return errors.New("Failed to insert data"), ""
 	}
 
 	fmt.Println("Record inserted successfully")
-	return nil
+	return nil, webhook.Data.UserID
 }
