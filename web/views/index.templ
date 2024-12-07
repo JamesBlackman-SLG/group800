@@ -14,12 +14,12 @@ func getCheckInClass(checkIn string) string {
 	return "font-medium text-sm w-1/4"
 }
 
-func GetTimeSheetLink(date time.Time, name string) string {
+func GetTimeSheetLink(date time.Time, userID string) string {
 	// Calculate the start of the week (Monday)
 	offset := (int(date.Weekday()) + 6) % 7 // Adjust so Monday is 0
 	startOfWeek := date.AddDate(0, 0, -offset)
 
-	href := fmt.Sprintf("/timesheet/%s/%s", startOfWeek.Format("2006-01-02"), name)
+	href := fmt.Sprintf("/timesheet/%s/%s", startOfWeek.Format("2006-01-02"), userID)
 	return href
 }
 
@@ -111,7 +111,7 @@ templ Index(locations []*Location, dt time.Time) {
 														for _, c:= range l.Data {
 															<tr class="border p-2 rounded-lg mb-2 hover:bg-yellow-200">
 																<td class="font-medium text-sm w-1/4">
-																	<a href={ templ.URL(GetTimeSheetLink(dt, c.Name)) }>{ c.Name }</a>
+																	<a href={ templ.URL(GetTimeSheetLink(dt, c.UserID)) }>{ c.Name }</a>
 																</td>
 																<td class="font-medium text-sm w-1/4">{ c.Trade }</td>
 																<td class={ getCheckInClass(c.CheckIn) }>{ c.CheckIn } { getIsLate(c.CheckIn) }</td>

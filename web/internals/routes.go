@@ -52,8 +52,8 @@ func (app *Config) Routes() {
 	app.Router.GET("/", app.indexPageHandler())
 	app.Router.GET("/:d", app.indexPageHandler())
 
-	app.Router.GET("/timesheet/:d/:u", app.timeSheetPageHandler())
+	app.Router.GET("/timesheet/:d/:userID", app.timeSheetPageHandler())
 	app.Router.GET("/users", app.usersPageHandler())
-	app.Router.GET("/edituser/:userName", app.userFormHandler())
-	app.Router.POST("/edituser/:userName", app.editUserHandler())
+	app.Router.GET("/edituser/:userID", app.userFormHandler())
+	app.Router.POST("/edituser", app.editUserHandler())
 }

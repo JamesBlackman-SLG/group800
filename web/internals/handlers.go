@@ -26,28 +26,28 @@ func renderTemplate(ctx *gin.Context, status int, template templ.Component) erro
 
 func (app *Config) editUserHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		userName := ctx.Param("userName")
+		userID := ctx.PostForm("userID")
 		newTrade := ctx.PostForm("trade")
 
 		// Update the user's trade in the database
-		err := app.updateUserTrade(app.DB, userName, newTrade)
+		err := app.updateUserTrade(app.DB, userID, newTrade)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
 
 		// Redirect back to the user form page
-		ctx.Redirect(http.StatusFound, "/edituser/"+userName)
+		ctx.Redirect(http.StatusFound, "/edituser/"+userID)
 	}
 }
 
-func (app *Config) updateUserTrade(db *sql.DB, userName, trade string) error {
+func (app *Config) updateUserTrade(db *sql.DB, userID, trade string) error {
 	query := `
 	UPDATE workers
 	SET trade = ?
-	WHERE CONCAT(first_name, ' ', last_name) = ?;
+	WHERE time_moto_user_id = ?;
 	`
-	_, err := db.ExecContext(context.Background(), query, trade, userName)
+	_, err := db.ExecContext(context.Background(), query, trade, userID)
 	if err != nil {
 		return fmt.Errorf("failed to update user trade: %w", err)
 	}
@@ -56,10 +56,10 @@ func (app *Config) updateUserTrade(db *sql.DB, userName, trade string) error {
 
 func (app *Config) userFormHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		userName := ctx.Param("userName")
+		userID := ctx.Param("userID")
 
 		// Fetch user details from the database
-		user, err := app.getUserDetails(app.DB, userName)
+		user, err := app.getUserDetails(app.DB, userID)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
@@ -74,33 +74,42 @@ func (app *Config) userFormHandler() gin.HandlerFunc {
 	}
 }
 
-func (app *Config) getUserDetails(db *sql.DB, userName string) (*views.User, error) {
+func (app *Config) getUserDetails(db *sql.DB, userID string) (*views.User, error) {
 	query := `
-	SELECT first_name, last_name, IFNULL(trade, '?') AS trade
+	SELECT time_moto_user_id, first_name, last_name, IFNULL(trade, '?') AS trade
 	FROM workers
-	WHERE CONCAT(first_name, ' ', last_name) = ?;
+	WHERE time_moto_user_id = ?;
 	`
-	row := db.QueryRowContext(context.Background(), query, userName)
+	row := db.QueryRowContext(context.Background(), query, userID)
 
 	var user views.User
-	err := row.Scan(&user.FirstName, &user.LastName, &user.Trade)
+	err := row.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.Trade)
 	if err == sql.ErrNoRows {
 		log.Println("Worker not found - creating worker record")
 		// If no rows are found, insert a new record with NULL for trade
 		insertQuery := `
-		INSERT INTO workers (first_name, last_name, trade)
-		VALUES (?, ?, NULL);
+		INSERT INTO workers (time_moto_user_id, first_name, last_name)
+    SELECT user_id, user_first_name, user_last_name
+    FROM webhooks
+    WHERE user_id = ?
+    LIMIT 1;
 		`
-		_, insertErr := db.ExecContext(context.Background(), insertQuery, userName, "")
+		_, insertErr := db.ExecContext(context.Background(), insertQuery, userID, "")
 		if insertErr != nil {
 			return nil, fmt.Errorf("failed to insert new user: %w", insertErr)
 		}
 
-		// Return the newly inserted user
-		user.FullName = userName
-		user.FirstName = userName
-		user.LastName = ""
-		user.Trade = ""
+		query := `
+	SELECT time_moto_user_id, first_name, last_name, IFNULL(trade, '?') AS trade
+	FROM workers
+	WHERE time_moto_user_id = ?;
+	`
+		rowNew := db.QueryRowContext(context.Background(), query, userID)
+
+		err := rowNew.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.Trade)
+		if err != nil {
+			return nil, fmt.Errorf("failed to fetch user details: %w", err)
+		}
 		return &user, nil
 	} else if err != nil {
 		return nil, fmt.Errorf("failed to fetch user details: %w", err)
@@ -269,7 +278,7 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 			d = time.Now()
 		}
 
-		userFullName := ctx.Param("u")
+		userID := ctx.Param("userID")
 
 		// var data []views.CheckInData
 		var weeklyData []*views.WeeklyTimeSheet
@@ -277,7 +286,7 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 		// range over the week
 		for i := 0; i < 7; i++ {
 			today := d.Add(time.Duration(i) * time.Hour * 24)
-			todaysData, err := weeklyTimeSheet(app.DB, userFullName, today)
+			todaysData, err := weeklyTimeSheet(app.DB, userID, today)
 			if err != nil {
 				log.Println(err)
 				ctx.JSON(http.StatusBadRequest, err.Error())
@@ -325,7 +334,7 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 			return
 		}
 
-		err = renderTemplate(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, userFullName, users))
+		err = renderTemplate(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, userID, users))
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
@@ -336,6 +345,7 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 func dailyCheckInAnalysis(db *sql.DB, locationName string, d time.Time) ([]views.CheckInData, error) {
 	query := `
 SELECT 
+    ci.user_id,
     ci.user_full_name,
     strftime('%H:%M', ci.time_logged) AS check_in,
     CASE 
@@ -385,7 +395,7 @@ ORDER BY
 	// Iterate over the rows
 	for rows.Next() {
 		var row views.CheckInData
-		err := rows.Scan(&row.Name, &row.CheckIn, &row.CheckOut, &row.Duration, &row.Trade)
+		err := rows.Scan(&row.UserID, &row.Name, &row.CheckIn, &row.CheckOut, &row.Duration, &row.Trade)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}

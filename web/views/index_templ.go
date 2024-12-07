@@ -22,12 +22,12 @@ func getCheckInClass(checkIn string) string {
 	return "font-medium text-sm w-1/4"
 }
 
-func GetTimeSheetLink(date time.Time, name string) string {
+func GetTimeSheetLink(date time.Time, userID string) string {
 	// Calculate the start of the week (Monday)
 	offset := (int(date.Weekday()) + 6) % 7 // Adjust so Monday is 0
 	startOfWeek := date.AddDate(0, 0, -offset)
 
-	href := fmt.Sprintf("/timesheet/%s/%s", startOfWeek.Format("2006-01-02"), name)
+	href := fmt.Sprintf("/timesheet/%s/%s", startOfWeek.Format("2006-01-02"), userID)
 	return href
 }
 
@@ -164,7 +164,7 @@ func Index(locations []*Location, dt time.Time) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var6 templ.SafeURL = templ.URL(GetTimeSheetLink(dt, c.Name))
+				var templ_7745c5c3_Var6 templ.SafeURL = templ.URL(GetTimeSheetLink(dt, c.UserID))
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var6)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -176,7 +176,7 @@ func Index(locations []*Location, dt time.Time) templ.Component {
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(c.Name)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 114, Col: 77}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 114, Col: 79}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {

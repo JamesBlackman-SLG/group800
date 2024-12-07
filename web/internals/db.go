@@ -135,7 +135,7 @@ func (app *Config) fetchDistinctLocations(db *sql.DB, d time.Time) ([]string, er
 	return locations, nil
 }
 
-func weeklyTimeSheet(db *sql.DB, userFullName string, d time.Time) ([]views.CheckInData, error) {
+func weeklyTimeSheet(db *sql.DB, userID string, d time.Time) ([]views.CheckInData, error) {
 	query := `
 SELECT 
     ci.location_name,
@@ -162,12 +162,12 @@ ON
     AND co.clocking_type = 'Out' 
     AND date(datetime(ci.time_logged)) = date(datetime(co.time_logged)) 
     AND datetime(co.time_logged) > datetime(ci.time_logged)
-LEFT JOIN workers w ON ci.user_first_name = w.first_name AND ci.user_last_name = w.last_name
+LEFT JOIN workers w ON ci.user_id = w.time_moto_user_id
 WHERE 
     ci.clocking_type = 'In'
     AND date(datetime(ci.time_logged)) = ?
     AND (co.time_logged IS NULL OR date(datetime(co.time_logged)) = ? )
-    AND ci.user_full_name = ?
+    AND ci.user_id = ?
 GROUP BY 
     ci.user_id, ci.time_logged
 HAVING check_out_time = '' OR duration > '00:00'
@@ -175,7 +175,7 @@ ORDER BY
     ci.user_full_name, check_in;
 `
 	// Prepare the query
-	rows, err := db.QueryContext(context.Background(), query, d.Format("2006-01-02"), d.Format("2006-01-02"), userFullName)
+	rows, err := db.QueryContext(context.Background(), query, d.Format("2006-01-02"), d.Format("2006-01-02"), userID)
 	if err != nil {
 		return nil, fmt.Errorf("query execution failed: %w", err)
 	}
@@ -191,7 +191,7 @@ ORDER BY
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}
 		row.Date = d.Format("2006-01-02")
-		row.Name = userFullName
+		row.Name = userID
 		data = append(data, row)
 	}
 

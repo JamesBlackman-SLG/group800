@@ -21,6 +21,7 @@ type Location struct {
 }
 
 type CheckInData struct {
+	UserID   string `json:"user_id"`
 	Date     string `json:"date"`
 	Name     string `json:"name"`
 	Type     string `json:"type"`
