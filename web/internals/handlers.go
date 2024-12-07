@@ -37,7 +37,7 @@ func (app *Config) editUserHandler() gin.HandlerFunc {
 		}
 
 		// Redirect back to the user form page
-		ctx.Redirect(http.StatusFound, "/edituser/"+userID)
+		ctx.Redirect(http.StatusFound, "/")
 	}
 }
 
@@ -114,7 +114,6 @@ func (app *Config) getUserDetails(db *sql.DB, userID string) (*views.User, error
 	} else if err != nil {
 		return nil, fmt.Errorf("failed to fetch user details: %w", err)
 	}
-	log.Println(user)
 	return &user, nil
 }
 

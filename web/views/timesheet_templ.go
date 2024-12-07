@@ -5,13 +5,13 @@ package views
 
 //lint:file-ignore SA4006 This context is only used if a nested component is present.
 
+import "github.com/a-h/templ"
+import templruntime "github.com/a-h/templ/runtime"
+
 import (
 	"fmt"
 	"group800_web/views/components"
 	"time"
-
-	"github.com/a-h/templ"
-	templruntime "github.com/a-h/templ/runtime"
 )
 
 func GetEditUserLink(userID string) string {
@@ -196,7 +196,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, userID string, users []*Us
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Var11 := []any{getCheckInClass(c.CheckIn)}
+					var templ_7745c5c3_Var11 = []any{getCheckInClass(c.CheckIn)}
 					templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
@@ -244,7 +244,7 @@ func TimeSheet(week []*WeeklyTimeSheet, dt time.Time, userID string, users []*Us
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Var15 := []any{getCheckOutClass(c.CheckOut)}
+					var templ_7745c5c3_Var15 = []any{getCheckOutClass(c.CheckOut)}
 					templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var15...)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
