@@ -296,33 +296,6 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 				Data: todaysData,
 			}
 			weeklyData = append(weeklyData, &ww)
-			// fmt.Println(d.Format("2006-01-02"))
-			//
-			// //	Create a new tab writer
-			// var buf bytes.Buffer
-			// writer := tabwriter.NewWriter(&buf, 0, 0, 1, ' ', tabwriter.Debug)
-			//
-			// // Write the header
-			// fmt.Fprintln(writer, "Date\tName\tLocation\tCheck In\tCheck Out\tDuration")
-			//
-			// // Write the data
-			// for _, row := range todaysData {
-			// 	name := row.Name
-			// 	if len(name) > 24 {
-			// 		name = name[:24] // Truncate if longer than 20 characters
-			// 	} else {
-			// 		name = fmt.Sprintf("%-24s", name) // Left-align and pad with spaces to 20 characters
-			// 	}
-			// 	dayOfWeek := today.Weekday().String()
-			// 	fmt.Fprintf(writer, "%s\t%s\t%s\t%s\t%s\t%s\n", dayOfWeek, name, row.Location, row.CheckIn, row.CheckOut, row.Duration)
-			// }
-			//
-			// // Flush the writer
-			// writer.Flush()
-			//
-			// // Print the tabulated data
-			// fmt.Println(buf.String())
-			// data = append(data, todaysData...)
 		}
 
 		// ctx.String(200, "message")
@@ -333,7 +306,12 @@ func (app *Config) timeSheetPageHandler() gin.HandlerFunc {
 			return
 		}
 
-		err = renderTemplate(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, userID, users))
+		user, err := app.getUserDetails(app.DB, userID)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, err.Error())
+		}
+
+		err = renderTemplate(ctx, http.StatusOK, views.TimeSheet(weeklyData, d, user, users))
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
