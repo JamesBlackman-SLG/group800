@@ -30,10 +30,12 @@ templ UserList(Users []*User) {
 							</thead>
 							<tbody>
 								for _, u := range Users {
-									<tr onclick={ GetWindowLocationTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID) } style="cursor: pointer;" class="hover:bg-yellow-200">
-										<td class="border px-4 py-2">{ u.FullName }</td>
-										<td class="border px-4 py-2">{ u.Trade }</td>
-										<td class="border px-4 py-2">{ u.EmploymentType }</td>
+									<tr class="hover:bg-yellow-200">
+										<a href={ GetWindowLocationTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID) } style="display: contents; cursor: pointer;">
+											<td class="border px-4 py-2">{ u.FullName }</td>
+											<td class="border px-4 py-2">{ u.Trade }</td>
+											<td class="border px-4 py-2">{ u.EmploymentType }</td>
+										</a>
 									</tr>
 								}
 							</tbody>
