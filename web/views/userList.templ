@@ -2,8 +2,22 @@ package views
 
 import "group800_web/views/components"
 
-templ UserList(Users []*User) {
-	<!DOCTYPE html>
+templ UserList(Users []*User) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) error {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_BufErr != nil {
+					templ_7745c5c3_CtxErr = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		templ_7745c5c3_W.Write([]byte(`<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
@@ -59,4 +73,7 @@ templ UserList(Users []*User) {
 			</script>
 		</body>
 	</html>
+		`))
+		return templ_7745c5c3_CtxErr
+	})
 }
