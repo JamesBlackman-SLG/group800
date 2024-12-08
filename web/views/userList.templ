@@ -44,7 +44,7 @@ templ UserList(Users []*User) {
 			function filterUsers() {
 				const searchInput = document.getElementById('searchBox').value.toLowerCase();
 				const userList = document.getElementById('user-list');
-				const users = userList.getElementsByTagName('tr');
+				const users = userList.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
 				for (let i = 0; i < users.length; i++) {
 					const userName = users[i].getElementsByTagName('td')[0].textContent.toLowerCase();
