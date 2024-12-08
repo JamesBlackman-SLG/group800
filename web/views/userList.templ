@@ -8,8 +8,13 @@ import (
 templ UserList(Users []*User) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@components.Header()
+		<head>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>User List</title>
+		</head>
 		<body>
+			@components.Header()
 			<main class="min-h-screen w-full">
 				@components.Menu("/users")
 				<div class="mt-6 w-full flex justify-center items-center flex-col">
@@ -36,25 +41,25 @@ templ UserList(Users []*User) {
 					</section>
 				</div>
 			</main>
-		</body>
-		@components.Footer()
-		<script>
-			function filterUsers() {
-				const searchInput = document.getElementById('searchBox').value.toLowerCase();
-				const userList = document.getElementById('user-list');
-				const users = userList.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+			@components.Footer()
+			<script>
+				function filterUsers() {
+					const searchInput = document.getElementById('searchBox').value.toLowerCase();
+					const userList = document.getElementById('user-list');
+					const users = userList.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-				for (let i = 0; i < users.length; i++) {
-					const userName = users[i].getElementsByTagName('td')[0].textContent.toLowerCase();
-					const userTrade = users[i].getElementsByTagName('td')[1].textContent.toLowerCase();
-					const userEmployment = users[i].getElementsByTagName('td')[2].textContent.toLowerCase();
-					if (userName.indexOf(searchInput) > -1 || userTrade.indexOf(searchInput) > -1 || userEmployment.indexOf(searchInput) > -1) {
-						users[i].style.display = "";
-					} else {
-						users[i].style.display = "none";
+					for (let i = 0; i < users.length; i++) {
+						const userName = users[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+						const userTrade = users[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+						const userEmployment = users[i].getElementsByTagName('td')[2].textContent.toLowerCase();
+						if (userName.indexOf(searchInput) > -1 || userTrade.indexOf(searchInput) > -1 || userEmployment.indexOf(searchInput) > -1) {
+							users[i].style.display = "";
+						} else {
+							users[i].style.display = "none";
+						}
 					}
 				}
-			}
-		</script>
+			</script>
+		</body>
 	</html>
 }
