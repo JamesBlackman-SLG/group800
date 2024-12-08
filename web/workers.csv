@@ -6,7 +6,7 @@ ID,FIRSTNAME,SURNAME,TRADE,EMPLOYMENT_TYPE,INVOICE FROM
 5,Dan,Boggans,Electrical Site Manager,PAYE,
 6,Andy,Boulton,Head of Decor,PAYE,
 7,Mark,Philpot,Mechanical Inst Manager,PAYE,
-8,Manuel,(Dan) Zehaliuc,Site Manager,PAYE,
+8,Manuel,Zehaliuc,Site Manager,PAYE,
 9,Igor,Bolasnikovs,Site Manager,PAYE,
 10,James,Cole,Site Manager,PAYE,
 11,Peter,Steyn,Contracts Manager,PAYE,
@@ -34,7 +34,7 @@ ID,FIRSTNAME,SURNAME,TRADE,EMPLOYMENT_TYPE,INVOICE FROM
 33,Marek,Kulinski,Facilities Asst,PAYE,
 34,Luke,Scott,Carpenter,PAYE,
 35,Roland,McKibbin,Electrician,PAYE,
-36,Stefan (Bogdan),Iliescu ,Site Ganger,PAYE,
+36,Stefan,Iliescu ,Site Ganger,PAYE,
 37,Karl,Smith,Fabricator,PAYE,
 38,Lee,Cripps,Fabricator,PAYE,
 39,David,Canham,Fabricator,Subcontractor,Vision Engineering Kent
@@ -49,7 +49,7 @@ ID,FIRSTNAME,SURNAME,TRADE,EMPLOYMENT_TYPE,INVOICE FROM
 48,John,Maycock,Plumber,PAYE,
 49,Pawel,Morka,Plumber,PAYE,
 50,Kevin,Taylor,Plumber,PAYE,
-51,Miri ,Xhelli,Plumber,Subcontractor ,D&A Xhelli Ltd
+51,Miri,Xhelli,Plumber,Subcontractor,D&A Xhelli Ltd
 52,Mark,Ebanks,Plumber,PAYE,
 53,Blake,Ford,Carpenter,PAYE,
 54,Luke,Howells,Bricklayer / Carpenter,PAYE,
@@ -59,63 +59,63 @@ ID,FIRSTNAME,SURNAME,TRADE,EMPLOYMENT_TYPE,INVOICE FROM
 58,Evaldas,Vistinis,Carpenter,Indigo,
 59,Pavel,Olinic,Carpenter,Indigo,
 60,Graham,Hill,Labourer,Indigo,
-61,Marin (Simeon),Holdec,Labourer,Indigo,
+61,Marin,Holdec,Labourer,Indigo,
 62,Danut,Ichim,Labourer,Indigo,
 63,Max,Stacey,Labourer,Indigo,
 64,Martins,Audzers,Trainee Electrician / Improver,Indigo,
 65,Anton,Albu,Labourer,Indigo,
-66,Andrew (Lenny),Lenehan,Electrician,Indigo,
+66,Andrew,Lenehan,Electrician,Indigo,
 67,Ion,Amuza,Ganger,Indigo,
 68,Michael,David,,Indigo,
-69,Alex (Plum),Gazulli,Carpenter,Indigo,
+69,Alex,Gazulli,Carpenter,Indigo,
 70,Tibor,Hudacek,Carpenter,Indigo,
 71,Dainius,Kulvinskas,Carpenter,Indigo,
-72,Almas ,Statts,Carpenter,Indigo,
-73,Mitch ,Bloomfield,Electrician,Indigo,
+72,Almas,Statts,Carpenter,Indigo,
+73,Mitch,Bloomfield,Electrician,Indigo,
 74,Stephen,Burchell,Ganger,Indigo,
 75,Rory,Bain,Electrician (Electrical Improver),Indigo,
-76,Mihail ,Ungureanu,Labourer,Indigo,
+76,Mihail,Ungureanu,Labourer,Indigo,
 77,Stefan,Hlodec,Carpenter,Indigo,
 78,Riley,Vialls,Electrical Improver,Indigo,
-79,Alexandru ,Topala,Carpenter,Apex,
+79,Alexandru,Topala,Carpenter,Apex,
 80,Daniel,Nevo,Labourer,Apex,
-81,Gabriel ,Bogdan,Handyman,Apex,
-82,Ion ,Ghenade,Groundworker,Apex,
+81,Gabriel,Bogdan,Handyman,Apex,
+82,Ion,Ghenade,Groundworker,Apex,
 83,Roman,Harazdiuk,Carpenter,Apex,
 84,Mihai,Marandin,Groundworker,Apex,
 85,Marius,Hajdemak,Carpenter,Apex,
 86,Kestutis,Stainionis,Carpenter,Apex,
 87,Sorin,Luca,Labourer,Apex,
 88,Koruzhak,Mykhailo,Carpenter,Apex,
-89,Gabriel ,Rosca,Labourer,Apex,
-90,Edgars ,Puke,Carpenter,Apex,
+89,Gabriel,Rosca,Labourer,Apex,
+90,Edgars,Puke,Carpenter,Apex,
 91,Lucas Fernandes ,Cosinha,Ganger,Apex,
 92,Iulian,Alexandru,Labourer,Apex,
 93,Marian,Alexandru,Labourer,Apex,
 94,Fernandes,de Carvalho Caio Marcel,Labourer,Apex,
 95,Francisc,Veszeli,Traffic Marshall,Apex,
-96,Andrei ,Ciobahl,Carpenter,Apex,
+96,Andrei,Ciobahl,Carpenter,Apex,
 97,Koruzhak,Mykhailo,Carpenter,Apex,
-98,Constantin ,Pircalabescu,Carpenter,Apex,
+98,Constantin,Pircalabescu,Carpenter,Apex,
 99,Paul,Thompson,Driver,Apex,
-100,Sunday ,Nwakpa,Labourer,Apex,
-101,Antanas ,Totov,Brickie,Apex,
-102,Andries ,Christoffel Jansen Jan,Traffic marshal,Apex,
+100,Sunday,Nwakpa,Labourer,Apex,
+101,Antanas,Totov,Brickie,Apex,
+102,Andries,Christoffel Jansen Jan,Traffic marshal,Apex,
 103,Daniel,Hotin,,Apex,
-104,Roman ,Aliashvili,Bricklayer,Apex,
+104,Roman,Aliashvili,Bricklayer,Apex,
 105,Asan,Samilov,Labourer,Apex,
 106,Daniel,Georgiu,Labourer,Apex,
 107,Caio,Carvalho,Labourer,Apex,
 108,Florin,Cernat,Carpenter,4Site,
-109,Nicolae ,Maler,Carpenter,4Site,
+109,Nicolae,Maler,Carpenter,4Site,
 110,Cristinal,Astamate,Carpenter,4Site,
 111,Reuben,Robinson,Carpenter,4Site,
-112,Eugeniu ,Sajin,Carpenter,4Site,
+112,Eugeniu,Sajin,Carpenter,4Site,
 113,Kadison,Millard,Handyman,4Site,
 114,Richard,Azoro,Carpenter,4Site,
-115,Virgil ,Gheorghe,Carpenter,4Site,
+115,Virgil,Gheorghe,Carpenter,4Site,
 116,Liam,Ezzy,Carpenter,4Site,
-117,Tadeus ,Buksinsk,Carpenter,Nohow,
+117,Tadeus,Buksinsk,Carpenter,Nohow,
 118,Artur,Olszweski,Carpenter,CRG,
 119,Steven,Merrett,Carpenter,CRG,
 120,Giedrius,Borusas,Carpenter,CRG,
@@ -123,64 +123,64 @@ ID,FIRSTNAME,SURNAME,TRADE,EMPLOYMENT_TYPE,INVOICE FROM
 122,Demetrius,Coelho da Silva,Carpenter,CRG,
 123,Gilson,William,Carpenter,CRG,
 124,Ciprian,Radu,Carpenter,CRG,
-125,Giedrius , Borusas,Carpenter,CRG,
-126,Dominic , O'Reilly,Electrician,Optima,
+125,Giedrius,Borusas,Carpenter,CRG,
+126,Dominic, O'Reilly,Electrician,Optima,
 127,Micah,Jules,Electrician,Optima,
 128,Devon,Lewis,Electrician,Optima,
 129,Elliot,Brako,Electrician,Optima,
 130,Kenny,Cato,Electrician,Optima,
-131,Francisco ,Benitez,Labourer,MCG ,
-132,Samuel ,Opoku,Labourer,MCG ,
-133,Stefan ,Fercu,Ground Worker,MCG ,
-134,James ,Scougall,Labourer,MCG ,
-135,Boguslaw ,Krystek,General Builder,Subcontractor ,JLB-TEC Ltd
-136,Adam ,Green,,Subcontractor ,111 Group Ltd
-137,Dritan (Eddie),Kastrati,Plasterer,Subcontractor ,LIR Plastering
-138,Eduard (Eddie),Gjini,Decorator,PAYE,
-139,Fatmir (Roberto),Hoxa,Plumber,Subcontractor,RJL
+131,Francisco,Benitez,Labourer,MCG ,
+132,Samuel,Opoku,Labourer,MCG ,
+133,Stefan,Fercu,Ground Worker,MCG ,
+134,James,Scougall,Labourer,MCG ,
+135,Boguslaw,Krystek,General Builder,Subcontractor,JLB-TEC Ltd
+136,Adam,Green,,Subcontractor,111 Group Ltd
+137,Dritan,Kastrati,Plasterer,Subcontractor,LIR Plastering
+138,Eduard,Gjini,Decorator,PAYE,
+139,Fatmir,Hoxa,Plumber,Subcontractor,RJL
 140,Albert,Vladi,Plumber,Subcontractor,RJL
-141,Gjovalin (Joe),Gjini,Decorator,Subcontractor,RJL / GRJ
-142,Alban ,Barkjraktari,Decorator,Subcontractor,RJL / GRJ
-143,Besmir ,Shtjefni,Decorator,Subcontractor,RJL / GRJ
-144,Agron ,Kurti,Decorator,Subcontractor,RJL / GRJ
-145,Narcis ,Alpopi,Decorator,Subcontractor,RJL / GRJ
-146,Gjin ,Pjetri,Decorator,Subcontractor,RJL / GRJ
-147,Vini ,Bajraktari,Decorator,Subcontractor,RJL / GRJ
-148,Kristjan ,Dakaj,Decorator,Subcontractor,RJL / GRJ
-149,Elton ,Rata,Decorator,Subcontractor,RJL / GRJ
-150,Sajmir ,Alla,Decorator,Subcontractor,RJL / GRJ
+141,Gjovalin,Gjini,Decorator,Subcontractor,RJL / GRJ
+142,Alban,Barkjraktari,Decorator,Subcontractor,RJL / GRJ
+143,Besmir,Shtjefni,Decorator,Subcontractor,RJL / GRJ
+144,Agron,Kurti,Decorator,Subcontractor,RJL / GRJ
+145,Narcis,Alpopi,Decorator,Subcontractor,RJL / GRJ
+146,Gjin,Pjetri,Decorator,Subcontractor,RJL / GRJ
+147,Vini,Bajraktari,Decorator,Subcontractor,RJL / GRJ
+148,Kristjan,Dakaj,Decorator,Subcontractor,RJL / GRJ
+149,Elton,Rata,Decorator,Subcontractor,RJL / GRJ
+150,Sajmir,Alla,Decorator,Subcontractor,RJL / GRJ
 151,Aleks,Meli,Decorator,Subcontractor,RJL / GRJ
 152,Hasan,Meta,Decorator,Subcontractor,RJL / GRJ
-153,Toni ,Bregasi,Decorator,Subcontractor,RJL / GRJ
-154,Arben ,Vasa,Decorator,Subcontractor,RJL / GRJ
-155,Edlir ,Hamolli,Decorator,Subcontractor,RJL / GRJ
-156,Leo ,Gjini,Decorator,Subcontractor,RJL / GRJ
+153,Toni,Bregasi,Decorator,Subcontractor,RJL / GRJ
+154,Arben,Vasa,Decorator,Subcontractor,RJL / GRJ
+155,Edlir,Hamolli,Decorator,Subcontractor,RJL / GRJ
+156,Leo,Gjini,Decorator,Subcontractor,RJL / GRJ
 157,Xhoan,Miculi,Decorator,Subcontractor,RJL / GRJ
-158,Dominic ,Gjini,?,Subcontractor,RJL / GRJ
-159,Mario ,Brahimaj,Decorator,Subcontractor,RJL / GRJ
-160,Elton ,Breshani,Labourer,Subcontractor,RJL / GRJ
-161,Gjon ,Gjinaj,Labourer,Subcontractor,RJL / GRJ
-162,Jaime ,Gjini,?,Subcontractor,RJL / GRJ
+158,Dominic,Gjini,?,Subcontractor,RJL / GRJ
+159,Mario,Brahimaj,Decorator,Subcontractor,RJL / GRJ
+160,Elton,Breshani,Labourer,Subcontractor,RJL / GRJ
+161,Gjon,Gjinaj,Labourer,Subcontractor,RJL / GRJ
+162,Jaime,Gjini,?,Subcontractor,RJL / GRJ
 163,Shyqo,Nedreu,Labourer,Subcontractor,RJL / GRJ
 164,Gezim,Kuka,Labourer,Subcontractor,RJL / GRJ
 165,Halit,Krasniqi,Carpenter,Subcontractor,RJL / GRJ
 166,Arjan,Shtjefanaku,Decorator,Subcontractor,RJL / GRJ
-167,Eni ,Aliu,Labourer,Subcontractor,RJL / GRJ
+167,Eni,Aliu,Labourer,Subcontractor,RJL / GRJ
 168,Ilir,Metaj,Decorator,Subcontractor,RJL / GRJ
-169,Ben ,Vasa,,Subcontractor,RJL / GRJ
+169,Ben,Vasa,,Subcontractor,RJL / GRJ
 170,Kajo,Hora,,Subcontractor,RJL / GRJ
 171,Nikolas,Gjini,,Subcontractor,RJL / GRJ
 172,Gilton,Gila,,Subcontractor,RJL / GRJ
 173,Cenk,Bektas,Labourer,Subcontractor,RJL / GRJ
-174,Alehandro ,Suti,,Subcontractor,RJL / GRJ
+174,Alehandro,Suti,,Subcontractor,RJL / GRJ
 175,Pluton,,Labourer,Subcontractor,RJL / GRJ
 176,Tomas,Boggans,Electrician,Subcontractor,TLJB Services Ltd
-177,Michael (Mick) ,David,Electrician,Subcontractor,Indigo
-178,Bill ,Rademeyer,Electrician,Subcontractor,Billy Charles Rademeyer
-179,Rich ,Parham,Electrician,Subcontractor,Evolution Electrics
-180,Danielius ,Grabliauskas,Electrician,Subcontractor ,Dainius Kulvinskas's company will invoice D&P Cleaning Services Ltd'
-181,Charlie,Mist,Electrician,Subcontractor ,Indigo
-182,Vadim,Gutu,Carpenter,Subcontractor ,?
-183,Vasile Marian,Cojocoriu,Carpenter,Subcontractor ,JLB-TEC Ltd
-184,Martin ,Lavin,Bricklayer,Subcontractor,CL Brickwork
-185,Chris ,Lavin,Bricklayer,Subcontractor,CL Brickwork
+177,Michael,David,Electrician,Subcontractor,Indigo
+178,Bill,Rademeyer,Electrician,Subcontractor,Billy Charles Rademeyer
+179,Rich,Parham,Electrician,Subcontractor,Evolution Electrics
+180,Danielius,Grabliauskas,Electrician,Subcontractor,Dainius Kulvinskas's company will invoice D&P Cleaning Services Ltd'
+181,Charlie,Mist,Electrician,Subcontractor,Indigo
+182,Vadim,Gutu,Carpenter,Subcontractor,?
+183,Vasile Marian,Cojocoriu,Carpenter,Subcontractor,JLB-TEC Ltd
+184,Martin,Lavin,Bricklayer,Subcontractor,CL Brickwork
+185,Chris,Lavin,Bricklayer,Subcontractor,CL Brickwork

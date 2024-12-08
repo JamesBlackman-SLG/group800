@@ -36,7 +36,6 @@ func main() {
 	}
 
 	url := fmt.Sprintf("%s?authToken=%s", tursoUrl, tursoToken)
-	log.Println(url)
 	db, err := sql.Open("libsql", url)
 	if err != nil {
 		log.Fatal("failed to open db")
@@ -67,7 +66,7 @@ func main() {
 	app.Routes()
 
 	log.Println("Group 800 Web API running on :8080")
-	err = router.Run("127.0.0.1:8080")
+	err = router.Run(":8080")
 	if err != nil {
 		log.Fatal("failed to run server")
 	}

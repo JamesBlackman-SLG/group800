@@ -3,11 +3,12 @@ package views
 import "time"
 
 type User struct {
-	UserID    string
-	FirstName string
-	LastName  string
-	FullName  string
-	Trade     string `json:"trade"`
+	UserID         string
+	FirstName      string
+	LastName       string
+	FullName       string
+	Trade          string `json:"trade"`
+	EmploymentType string `json:"employment_type"`
 }
 
 type WeeklyTimeSheet struct {

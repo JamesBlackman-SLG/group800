@@ -99,7 +99,20 @@ func UserForm(user *User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full border border-gray-300 rounded-md p-2 bg-white text-black\"></div><br><div class=\"\"><input type=\"submit\" value=\"Update\" class=\"\"></div></form></section></div></main></body>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full border border-gray-300 rounded-md p-2 bg-white text-black\"></div><div><label for=\"employmentType\" class=\"\">Employment</label> <input type=\"text\" id=\"employmentType\" name=\"employmentType\" value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(user.EmploymentType)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/user_form.templ`, Line: 33, Col: 36}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full border border-gray-300 rounded-md p-2 bg-white text-black\"></div><br><input type=\"submit\" value=\"Update\" class=\"mt-6 text-blue-500 hover:text-blue-700 font-semibold underline\"></form></section></div></main></body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

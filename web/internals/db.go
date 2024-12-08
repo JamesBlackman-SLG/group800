@@ -68,7 +68,7 @@ const CreateWorkersTable = `
 // listUsers retrieves a list of distinct user full names ordered alphabetically
 func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
 	query := `
-  SELECT DISTINCT ww.user_id, ww.user_full_name, ww.user_first_name, ww.user_last_name, IFNULL(w.trade, "?") AS trade
+  SELECT DISTINCT ww.user_id, ww.user_full_name, ww.user_first_name, ww.user_last_name, IFNULL(w.trade, "?") AS trade, IFNULL(w.employment_type, "?") AS employment_type
   FROM webhooks ww
   LEFT JOIN workers w ON ww.user_first_name = w.first_name AND ww.user_last_name = w.last_name
   ORDER BY user_full_name;
@@ -85,7 +85,7 @@ func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
 	// Iterate over the rows
 	for rows.Next() {
 		var user views.User
-		err := rows.Scan(&user.UserID, &user.FullName, &user.FirstName, &user.LastName, &user.Trade)
+		err := rows.Scan(&user.UserID, &user.FullName, &user.FirstName, &user.LastName, &user.Trade, &user.EmploymentType)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan row: %w", err)
 		}

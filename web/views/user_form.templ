@@ -24,14 +24,22 @@ templ UserForm(user *User) {
 									class="w-full border border-gray-300 rounded-md p-2 bg-white text-black"
 								/>
 							</div>
-							<br/>
-							<div class="">
+							<div>
+								<label for="employmentType" class="">Employment</label>
 								<input
-									type="submit"
-									value="Update"
-									class=""
+									type="text"
+									id="employmentType"
+									name="employmentType"
+									value={ user.EmploymentType }
+									class="w-full border border-gray-300 rounded-md p-2 bg-white text-black"
 								/>
 							</div>
+							<br/>
+							<input
+								type="submit"
+								value="Update"
+								class="mt-6 text-blue-500 hover:text-blue-700 font-semibold underline"
+							/>
 						</form>
 					</section>
 				</div>

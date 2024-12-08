@@ -44,15 +44,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /root/
 
 # Copy the built binary from the builder stage
-COPY --from=builder /app/group800web .
+COPY --from=builder /app/group800web ./cmd/
 
 # Set executable permissions for the Go binary
-RUN chmod +x /root/group800web
+RUN chmod +x /root/cmd/group800web
 
 # Copy the certificate files from the source folder to the runtime container
 # COPY ../.certs /root/.certs
 
-COPY ../web/views/static /views/static
+COPY ../web/views/static /root/views/static
 
 # Set permissions for the certificates
 # RUN chmod -R 600 /root/.certs
@@ -64,4 +64,4 @@ ENV GIN_MODE=release
 ENV GROUP_800_ENV=production
 
 # Command to run the Go server
-ENTRYPOINT ["./group800web"]
+ENTRYPOINT ["./cmd/group800web"]

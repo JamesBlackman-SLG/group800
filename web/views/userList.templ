@@ -14,11 +14,11 @@ templ UserList(Users []*User) {
 				@components.Menu("/users")
 				<div class="mt-6 w-full flex justify-center items-center flex-col">
 					<section class="px-2 py-2 w-full max-w-4xl">
-						<input type="text" id="searchBox" placeholder="Search users..." class="border p-2 rounded-lg mb-4 w-full max-w-4xl" onkeyup="filterUsers()"/>
+						<input type="text" id="searchBox" placeholder="Search" class="border p-2 rounded-lg mb-4 w-full max-w-4xl" onkeyup="filterUsers()"/>
 						<ul id="user-list">
 							for _, u := range Users {
 								<li class="ml-4 ml-4 border rounded-lg mb-2">
-									<a href={ templ.URL(GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID)) } class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">{ u.FullName } - { u.Trade }</a>
+									<a href={ templ.URL(GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID)) } class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">{ u.FullName } - { u.Trade } - { u.EmploymentType }</a>
 								</li>
 							}
 						</ul>

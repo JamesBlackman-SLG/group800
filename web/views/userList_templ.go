@@ -50,7 +50,7 @@ func UserList(Users []*User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-6 w-full flex justify-center items-center flex-col\"><section class=\"px-2 py-2 w-full max-w-4xl\"><input type=\"text\" id=\"searchBox\" placeholder=\"Search users...\" class=\"border p-2 rounded-lg mb-4 w-full max-w-4xl\" onkeyup=\"filterUsers()\"><ul id=\"user-list\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-6 w-full flex justify-center items-center flex-col\"><section class=\"px-2 py-2 w-full max-w-4xl\"><input type=\"text\" id=\"searchBox\" placeholder=\"Search\" class=\"border p-2 rounded-lg mb-4 w-full max-w-4xl\" onkeyup=\"filterUsers()\"><ul id=\"user-list\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -87,6 +87,19 @@ func UserList(Users []*User) templ.Component {
 				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 21, Col: 184}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" - ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(u.EmploymentType)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 21, Col: 207}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -28,26 +28,28 @@ func (app *Config) editUserHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		userID := ctx.PostForm("userID")
 		newTrade := ctx.PostForm("trade")
+		newEmploymentType := ctx.PostForm("employmentType")
 
 		// Update the user's trade in the database
-		err := app.updateUserTrade(app.DB, userID, newTrade)
+		err := app.updateWorker(app.DB, userID, newTrade, newEmploymentType)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
 
+		a := views.GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), userID)
 		// Redirect back to the user form page
-		ctx.Redirect(http.StatusFound, "/")
+		ctx.Redirect(http.StatusFound, a)
 	}
 }
 
-func (app *Config) updateUserTrade(db *sql.DB, userID, trade string) error {
+func (app *Config) updateWorker(db *sql.DB, userID, trade, employmentType string) error {
 	query := `
 	UPDATE workers
-	SET trade = ?
+	SET trade = ?, employment_type = ?
 	WHERE time_moto_user_id = ?;
 	`
-	_, err := db.ExecContext(context.Background(), query, trade, userID)
+	_, err := db.ExecContext(context.Background(), query, trade, employmentType, userID)
 	if err != nil {
 		return fmt.Errorf("failed to update user trade: %w", err)
 	}
@@ -76,14 +78,14 @@ func (app *Config) userFormHandler() gin.HandlerFunc {
 
 func (app *Config) getUserDetails(userID string) (*views.User, error) {
 	query := `
-	SELECT time_moto_user_id, first_name, last_name, IFNULL(trade, '?') AS trade
+	SELECT time_moto_user_id, first_name, last_name, IFNULL(trade, '?') AS trade, IFNULL(employment_type, '?') AS employment_type
 	FROM workers
 	WHERE time_moto_user_id = ?;
 	`
 	row := app.DB.QueryRowContext(context.Background(), query, userID)
 
 	var user views.User
-	err := row.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.Trade)
+	err := row.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.Trade, &user.EmploymentType)
 	if err == sql.ErrNoRows {
 		log.Println("Worker not found - creating worker record")
 		// If no rows are found, insert a new record with NULL for trade
@@ -100,13 +102,13 @@ func (app *Config) getUserDetails(userID string) (*views.User, error) {
 		}
 
 		query := `
-	SELECT time_moto_user_id, first_name, last_name, IFNULL(trade, '?') AS trade
+	SELECT time_moto_user_id, first_name, last_name, IFNULL(trade, '?') AS trade, IFNULL(employment_type, '?') AS employment_type
 	FROM workers
 	WHERE time_moto_user_id = ?;
 	`
 		rowNew := app.DB.QueryRowContext(context.Background(), query, userID)
 
-		err := rowNew.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.Trade)
+		err := rowNew.Scan(&user.UserID, &user.FirstName, &user.LastName, &user.Trade, &user.EmploymentType)
 		if err != nil {
 			return nil, fmt.Errorf("failed to fetch user details: %w", err)
 		}
