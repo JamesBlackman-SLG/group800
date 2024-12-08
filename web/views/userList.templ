@@ -1,23 +1,12 @@
 package views
 
-import "group800_web/views/components"
+import (
+	"group800_web/views/components"
+	"time"
+)
 
-templ UserList(Users []*User) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) error {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_BufErr != nil {
-					templ_7745c5c3_CtxErr = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		templ_7745c5c3_W.Write([]byte(`<!DOCTYPE html>
+templ UserList(Users []*User) {
+	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
@@ -41,7 +30,7 @@ templ UserList(Users []*User) templ.Component {
 							</thead>
 							<tbody>
 								for _, u := range Users {
-									<tr onclick="window.location='{ templ.URL(GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID)) }'" style="cursor: pointer;" class="hover:bg-yellow-200">
+									<tr onclick={ GetWindowLocationTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID) } style="cursor: pointer;" class="hover:bg-yellow-200">
 										<td class="border px-4 py-2">{ u.FullName }</td>
 										<td class="border px-4 py-2">{ u.Trade }</td>
 										<td class="border px-4 py-2">{ u.EmploymentType }</td>
@@ -73,7 +62,4 @@ templ UserList(Users []*User) templ.Component {
 			</script>
 		</body>
 	</html>
-		`))
-		return templ_7745c5c3_CtxErr
-	})
 }
