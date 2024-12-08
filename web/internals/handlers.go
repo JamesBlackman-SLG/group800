@@ -166,6 +166,7 @@ func (app *Config) webHookHandler() gin.HandlerFunc {
 		err, userID := webhook.HandlePost(app.DB, body)
 		if err != nil {
 			log.Println(err)
+			return
 		}
 
 		// Test the user exists and if not, will create new worker record
