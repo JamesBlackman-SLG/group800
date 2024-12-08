@@ -23,6 +23,15 @@ func GetTimeSheetLink(date time.Time, userID string) string {
 	return href
 }
 
+func GetWindowLocationTimeSheetLink(date time.Time, userID string) string {
+	// Calculate the start of the week (Monday)
+	offset := (int(date.Weekday()) + 6) % 7 // Adjust so Monday is 0
+	startOfWeek := date.AddDate(0, 0, -offset)
+
+	href := fmt.Sprintf("window.location = '/timesheet/%s/%s';", startOfWeek.Format("2006-01-02"), userID)
+	return href
+}
+
 func getIsLate(checkIn string) string {
 	if checkIn > "08:00" {
 		return " *"

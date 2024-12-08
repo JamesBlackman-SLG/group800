@@ -34,7 +34,7 @@ func UserList(Users []*User) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>User List</title></head><body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -42,7 +42,7 @@ func UserList(Users []*User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body><main class=\"min-h-screen w-full\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"min-h-screen w-full\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,65 +50,83 @@ func UserList(Users []*User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-6 w-full flex justify-center items-center flex-col\"><section class=\"px-2 py-2 w-full max-w-4xl\"><input type=\"text\" id=\"searchBox\" placeholder=\"Search\" class=\"border p-2 rounded-lg mb-4 w-full max-w-4xl\" onkeyup=\"filterUsers()\"><ul id=\"user-list\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"mt-6 w-full flex justify-center items-center flex-col\"><section class=\"px-2 py-2 w-full max-w-4xl\"><input type=\"text\" id=\"searchBox\" placeholder=\"Search\" class=\"border p-2 rounded-lg mb-4 w-full max-w-4xl\" onkeyup=\"filterUsers()\"><table id=\"user-list\" class=\"w-full table-fixed border-collapse\"><thead><tr><th class=\"border px-4 py-2\" style=\"text-align: left;\">Full Name</th><th class=\"border px-4 py-2\" style=\"text-align: left;\">Trade</th><th class=\"border px-4 py-2\" style=\"text-align: left;\">Employment Type</th></tr></thead> <tbody>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, u := range Users {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"ml-4 ml-4 border rounded-lg mb-2\"><a href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr class=\"hover:bg-yellow-200\" style=\"cursor: pointer;\"><td class=\"border px-4 py-2\"><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var2 templ.SafeURL = templ.URL(GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID))
+			var templ_7745c5c3_Var2 templ.SafeURL = templ.SafeURL(GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID))
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var2)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" style=\"display: contents; \">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(u.FullName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 21, Col: 170}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 36, Col: 24}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" - ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></td><td class=\"border px-4 py-2\"><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(u.Trade)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 21, Col: 184}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			var templ_7745c5c3_Var4 templ.SafeURL = templ.SafeURL(GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var4)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" - ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" style=\"display: contents; \">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(u.EmploymentType)
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(u.Trade)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 21, Col: 207}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 41, Col: 21}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></li>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></td><td class=\"border px-4 py-2\"><a href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 templ.SafeURL = templ.SafeURL(GetTimeSheetLink(time.Now().Add(time.Hour*24*7*-1), u.UserID))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var6)))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" style=\"display: contents; \">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(u.EmploymentType)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/userList.templ`, Line: 46, Col: 30}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></td></tr>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></section></div></main></body>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</tbody></table></section></div></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -116,7 +134,7 @@ func UserList(Users []*User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n\t\t\tfunction filterUsers() {\n\t\t\t\tconst searchInput = document.getElementById('searchBox').value.toLowerCase();\n\t\t\t\tconst userList = document.getElementById('user-list');\n\t\t\t\tconst users = userList.getElementsByTagName('li');\n\n\t\t\t\tfor (let i = 0; i < users.length; i++) {\n\t\t\t\t\tconst userName = users[i].textContent || users[i].innerText;\n\t\t\t\t\tif (userName.toLowerCase().indexOf(searchInput) > -1) {\n\t\t\t\t\t\tusers[i].style.display = \"\";\n\t\t\t\t\t} else {\n\t\t\t\t\t\tusers[i].style.display = \"none\";\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t</script></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n\t\t\t\tfunction filterUsers() {\n\t\t\t\t\tconst searchInput = document.getElementById('searchBox').value.toLowerCase();\n\t\t\t\t\tconst userList = document.getElementById('user-list');\n\t\t\t\t\tconst users = userList.getElementsByTagName('tbody')[0].getElementsByTagName('tr');\n\n\t\t\t\t\tfor (let i = 0; i < users.length; i++) {\n\t\t\t\t\t\tconst userName = users[i].getElementsByTagName('td')[0].textContent.toLowerCase();\n\t\t\t\t\t\tconst userTrade = users[i].getElementsByTagName('td')[1].textContent.toLowerCase();\n\t\t\t\t\t\tconst userEmployment = users[i].getElementsByTagName('td')[2].textContent.toLowerCase();\n\t\t\t\t\t\tif (userName.indexOf(searchInput) > -1 || userTrade.indexOf(searchInput) > -1 || userEmployment.indexOf(searchInput) > -1) {\n\t\t\t\t\t\t\tusers[i].style.display = \"\";\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tusers[i].style.display = \"none\";\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t</script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
