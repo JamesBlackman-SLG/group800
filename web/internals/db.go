@@ -6,9 +6,47 @@ import (
 	"encoding/csv"
 	"fmt"
 	"group800_web/views"
+	"log"
 	"os"
+	"strings"
 	"time"
 )
+
+// DBExecutor defines an interface for executing queries with timing
+type DBExecutor interface {
+	QueryContextWithTiming(ctx context.Context, query string, args ...interface{}) (*sql.Rows, error)
+}
+
+// formatQuery replaces placeholders in the query with the actual argument values
+func formatQuery(query string, args ...interface{}) string {
+	for _, arg := range args {
+		placeholder := "?"
+		argStr := fmt.Sprintf("'%v'", arg)
+		query = strings.Replace(query, placeholder, argStr, 1)
+	}
+	return query
+}
+
+// TimedDBExecutor implements DBExecutor and records query execution time
+type TimedDBExecutor struct {
+	DB *sql.DB
+}
+
+// QueryContextWithTiming executes a query and logs its execution time
+func (t *TimedDBExecutor) QueryContextWithTiming(ctx context.Context, query string, args ...interface{}) (*sql.Rows, error) {
+	startTime := time.Now()
+
+	rows, err := t.DB.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, fmt.Errorf("query execution failed: %w", err)
+	}
+
+	duration := time.Since(startTime)
+	fmt.Println(formatQuery(query, args...))
+	log.Printf("Query executed in %s\n", duration)
+
+	return rows, nil
+}
 
 const CreateWebhooksTable = `
 	CREATE TABLE IF NOT EXISTS webhooks (
@@ -74,7 +112,8 @@ func (app *Config) listUsers(db *sql.DB) ([]*views.User, error) {
   ORDER BY user_full_name;
 `
 
-	rows, err := db.QueryContext(context.Background(), query)
+	executor := &TimedDBExecutor{DB: db}
+	rows, err := executor.QueryContextWithTiming(context.Background(), query)
 	if err != nil {
 		return nil, fmt.Errorf("query execution failed: %w", err)
 	}
@@ -109,10 +148,12 @@ func (app *Config) fetchDistinctLocations(db *sql.DB, d time.Time) ([]string, er
   ORDER BY location_name;
 `
 
-	rows, err := db.QueryContext(context.Background(), query, d.Format("2006-01-02"))
+	executor := &TimedDBExecutor{DB: db}
+	rows, err := executor.QueryContextWithTiming(context.Background(), query, d.Format("2006-01-02"))
 	if err != nil {
 		return nil, fmt.Errorf("query execution failed: %w", err)
 	}
+
 	defer rows.Close()
 
 	var locations []string
@@ -175,7 +216,8 @@ ORDER BY
     ci.user_full_name, check_in;
 `
 	// Prepare the query
-	rows, err := db.QueryContext(context.Background(), query, d.Format("2006-01-02"), d.Format("2006-01-02"), userID)
+	executor := &TimedDBExecutor{DB: db}
+	rows, err := executor.QueryContextWithTiming(context.Background(), query, d.Format("2006-01-02"), d.Format("2006-01-02"), userID)
 	if err != nil {
 		return nil, fmt.Errorf("query execution failed: %w", err)
 	}

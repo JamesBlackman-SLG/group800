@@ -2,3 +2,4 @@ web/node_modules
 .aider*
 .env
 web/.vscode/launch.json
+sql/.go-tetris.log
